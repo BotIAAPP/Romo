@@ -847,11 +847,12 @@
 
 <script>
   // === CONFIGURATION ===
-  // Backend: Web3Forms (https://web3forms.com)
-  // Para activarlo, pon aquí tu access_key (la obtienes gratis en web3forms.com con tu email).
-  // Si lo dejas vacío, el formulario funcionará en "modo demo": no envía a ningún lado, solo muestra y descarga el payload.
-  const WEB3FORMS_KEY = '68c945fb-fc10-412a-bca5-606f2b08823d';
-  const WEB3FORMS_URL = 'https://api.web3forms.com/submit';
+  // Backend: FormSubmit (https://formsubmit.co) — gratis, sin signup, soporta adjuntos.
+  // Pon el email de intake del operador aquí. Primera vez FormSubmit envía un correo de activación;
+  // hay que clickear el link UNA vez y después funciona definitivo.
+  // Si lo dejas vacío, el formulario corre en "modo demo".
+  const FORMSUBMIT_EMAIL = 'bot.ia.app@gilm.com.mx';
+  const FORMSUBMIT_URL = FORMSUBMIT_EMAIL ? `https://formsubmit.co/ajax/${encodeURIComponent(FORMSUBMIT_EMAIL)}` : '';
 
   // === STATE ===
   const state = {
@@ -1019,12 +1020,17 @@
     const payload = await buildPayload();
 
     try {
-      if (WEB3FORMS_KEY) {
-        // Real submission to Web3Forms with FormData (supports file upload)
+      if (FORMSUBMIT_URL) {
+        // Real submission to FormSubmit (https://formsubmit.co) — supports file uploads on free tier
         const fd = new FormData();
-        fd.append('access_key', WEB3FORMS_KEY);
-        fd.append('subject', `[Aliacer · Facturación] ${payload.rfc_destinatario.nombre} · ${payload.ref_id}`);
-        fd.append('from_name', 'Portal Facturador Aliacer');
+        // FormSubmit special fields (prefijo _)
+        fd.append('_subject', `[Aliacer · Facturación] ${payload.rfc_destinatario.nombre} · ${payload.ref_id}`);
+        fd.append('_template', 'box');
+        fd.append('_captcha', 'false');
+        fd.append('_replyto', payload.email_destino);
+        // Honeypot anti-spam
+        fd.append('_honey', '');
+        // Datos de la solicitud
         fd.append('ref_id', payload.ref_id);
         fd.append('rfc_alias', payload.rfc_alias);
         fd.append('rfc_receptor', payload.rfc_destinatario.rfc);
@@ -1032,13 +1038,17 @@
         fd.append('email_destino', payload.email_destino);
         fd.append('timestamp', payload.timestamp_solicitud);
         fd.append('payload_json', JSON.stringify(payload, null, 2));
-        // Honeypot anti-spam
-        fd.append('botcheck', '');
-        // Archivo del ticket
+        // Archivo del ticket (FormSubmit adjunta cualquier campo File)
         fd.append('ticket', state.ticket, state.ticket.name);
-        const r = await fetch(WEB3FORMS_URL, { method: 'POST', body: fd });
+        const r = await fetch(FORMSUBMIT_URL, {
+          method: 'POST',
+          headers: { 'Accept': 'application/json' },
+          body: fd,
+        });
         const json = await r.json();
-        if (!json.success) throw new Error(json.message || 'Error desconocido del backend');
+        if (json.success !== 'true' && json.success !== true) {
+          throw new Error(json.message || 'Error desconocido del backend');
+        }
       } else {
         // Demo mode — pequeña espera para que se sienta como envío
         await new Promise(r => setTimeout(r, 600));
