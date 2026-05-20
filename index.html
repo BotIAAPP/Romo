@@ -1,0 +1,1095 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>ALIACER · Portal de Facturación</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Saira:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400;1,600;1,700&family=Saira+Condensed:ital,wght@0,500;0,700;0,800;1,500;1,700;1,800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --brand-red:       #c8202e;
+    --brand-red-deep:  #a01624;
+    --brand-navy:      #1f3d7a;
+    --brand-navy-deep: #142a5c;
+    --brand-navy-soft: #4a5e8c;
+    --ink:             #1a1a1a;
+    --text:            #2a2f3a;
+    --text-soft:       #5a6478;
+    --text-faint:      #9aa3b5;
+    --paper:           #ffffff;
+    --paper-soft:      #f7f8fb;
+    --paper-shade:     #eef1f7;
+    --rule:            #dde2eb;
+    --rule-soft:       #ebeef4;
+    --success:         #1d8a4e;
+    --warning:         #b6791a;
+    --sans: 'Saira', system-ui, sans-serif;
+    --cond: 'Saira Condensed', 'Saira', sans-serif;
+    --mono: 'JetBrains Mono', monospace;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { min-height: 100%; }
+  body {
+    font-family: var(--sans);
+    color: var(--text);
+    background: var(--paper);
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+    min-height: 100vh;
+    display: flex; flex-direction: column;
+  }
+
+  /* === BRAND ATOMS === */
+  .brand-strip {
+    height: 4px;
+    background: linear-gradient(90deg, var(--brand-navy-deep) 0%, var(--brand-navy) 30%, #6b6b8c 55%, var(--brand-red-deep) 85%, var(--brand-red) 100%);
+  }
+  .aliacer-logo {
+    display: inline-flex; align-items: center; gap: 0.55em;
+    line-height: 1;
+  }
+  .aliacer-logo .word {
+    font-family: var(--cond);
+    font-style: italic;
+    font-weight: 800;
+    color: var(--brand-navy);
+    letter-spacing: 0.02em;
+    line-height: 1;
+  }
+  .pl-mark {
+    display: inline-flex; align-items: center; gap: 0.18em;
+    font-family: var(--cond);
+    font-style: italic;
+    font-weight: 800;
+    line-height: 1;
+  }
+  .pl-mark .perfiles { color: var(--ink); }
+  .pl-mark .lm {
+    background: var(--brand-red);
+    color: var(--paper);
+    padding: 0.15em 0.4em 0.18em;
+    border-radius: 2px;
+  }
+  .pl-mark .galvasid { color: var(--brand-navy); margin-left: 0.18em; }
+
+  /* === CHROME === */
+  .top-chrome {
+    position: relative;
+    padding: 0.85rem 2.5rem;
+    display: flex; align-items: center; justify-content: space-between;
+    border-bottom: 1px solid var(--rule);
+    background: var(--paper);
+  }
+  .top-left .doc-id {
+    font-family: var(--mono);
+    font-size: 0.62rem;
+    text-transform: uppercase;
+    letter-spacing: 0.22em;
+    color: var(--text-faint);
+    display: block;
+    margin-bottom: 0.2rem;
+  }
+  .top-left .doc-section {
+    font-family: var(--cond);
+    font-style: italic;
+    font-weight: 700;
+    font-size: 1rem;
+    color: var(--brand-navy);
+  }
+  .top-right { display: flex; flex-direction: column; align-items: flex-end; gap: 0.2rem; }
+  .top-right .aliacer-logo .word { font-size: 1.05rem; }
+  .top-right .tagline {
+    font-size: 0.6rem;
+    color: var(--text-soft);
+    display: flex; align-items: center; gap: 0.35rem;
+  }
+  .top-right .tagline .pl-mark { font-size: 0.62rem; }
+
+  .bottom-chrome {
+    margin-top: auto;
+    padding: 0.85rem 2.5rem;
+    border-top: 1px solid var(--rule);
+    display: flex; align-items: center; justify-content: space-between;
+    font-size: 0.7rem;
+    color: var(--text-soft);
+  }
+  .bottom-chrome .pl-mark { font-size: 0.78rem; }
+  .bottom-chrome .aliacer-logo .word { font-size: 0.9rem; }
+
+  /* === LAYOUT === */
+  .container {
+    flex: 1;
+    max-width: 880px;
+    width: 100%;
+    margin: 0 auto;
+    padding: 2.5rem 2rem;
+  }
+
+  /* === HEADER === */
+  .portal-header {
+    text-align: center;
+    margin-bottom: 2.5rem;
+  }
+  .portal-eyebrow {
+    display: inline-flex; align-items: center; gap: 0.55rem;
+    font-family: var(--mono);
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.22em;
+    color: var(--text-soft);
+    margin-bottom: 1rem;
+  }
+  .portal-eyebrow::before {
+    content: '';
+    width: 22px; height: 2px;
+    background: var(--brand-red);
+  }
+  .portal-eyebrow::after {
+    content: '';
+    width: 22px; height: 2px;
+    background: var(--brand-red);
+  }
+  h1.portal-title {
+    font-family: var(--cond);
+    font-style: italic;
+    font-weight: 700;
+    font-size: clamp(2rem, 4vw, 3.2rem);
+    line-height: 0.95;
+    color: var(--brand-navy);
+    margin-bottom: 0.6rem;
+  }
+  h1.portal-title .red { color: var(--brand-red); }
+  .portal-sub {
+    font-size: 1rem;
+    color: var(--text-soft);
+    max-width: 52ch;
+    margin: 0 auto;
+  }
+
+  /* === STEPPER === */
+  .stepper {
+    display: grid;
+    grid-template-columns: 1fr 24px 1fr 24px 1fr 24px 1fr;
+    align-items: center;
+    margin-bottom: 2rem;
+    gap: 0;
+  }
+  .step-pill {
+    display: flex; flex-direction: column; align-items: center; gap: 0.3rem;
+    padding: 0.6rem 0;
+    cursor: default;
+  }
+  .step-pill .num {
+    width: 32px; height: 32px;
+    border-radius: 50%;
+    background: var(--paper-shade);
+    color: var(--text-faint);
+    display: flex; align-items: center; justify-content: center;
+    font-family: var(--cond);
+    font-style: italic;
+    font-weight: 800;
+    font-size: 1rem;
+    border: 2px solid transparent;
+    transition: all 0.3s;
+  }
+  .step-pill .lbl {
+    font-family: var(--mono);
+    font-size: 0.65rem;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    color: var(--text-faint);
+    transition: color 0.3s;
+  }
+  .step-pill.active .num {
+    background: var(--brand-navy);
+    color: var(--paper);
+    border-color: var(--brand-navy);
+    box-shadow: 0 0 0 4px rgba(31,61,122,0.12);
+  }
+  .step-pill.active .lbl { color: var(--brand-navy); }
+  .step-pill.done .num {
+    background: var(--brand-red);
+    color: var(--paper);
+    border-color: var(--brand-red);
+  }
+  .step-pill.done .lbl { color: var(--brand-red); }
+  .step-line {
+    height: 2px;
+    background: var(--rule);
+    width: 100%;
+  }
+  .step-line.done { background: var(--brand-red); }
+
+  /* === STEPS === */
+  .step-pane { display: none; }
+  .step-pane.active { display: block; animation: slideIn 0.4s cubic-bezier(0.16, 1, 0.3, 1); }
+  @keyframes slideIn {
+    from { opacity: 0; transform: translateY(12px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .step-heading {
+    margin-bottom: 1.5rem;
+  }
+  .step-heading h2 {
+    font-family: var(--cond);
+    font-style: italic;
+    font-weight: 700;
+    font-size: 1.7rem;
+    color: var(--brand-navy);
+    margin-bottom: 0.35rem;
+  }
+  .step-heading .red { color: var(--brand-red); }
+  .step-heading p {
+    font-size: 0.95rem;
+    color: var(--text-soft);
+    max-width: 60ch;
+  }
+
+  /* === RFC CARDS === */
+  .rfc-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.25rem;
+  }
+  .rfc-card {
+    cursor: pointer;
+    padding: 1.5rem 1.5rem 1.5rem;
+    border: 2px solid var(--rule);
+    background: var(--paper);
+    transition: all 0.25s;
+    display: flex; flex-direction: column; gap: 0.75rem;
+    position: relative;
+  }
+  .rfc-card:hover {
+    border-color: var(--brand-navy);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 24px rgba(31,61,122,0.08);
+  }
+  .rfc-card.selected {
+    border-color: var(--brand-red);
+    background: linear-gradient(180deg, #fff8f8 0%, var(--paper) 60%);
+  }
+  .rfc-card.selected::before {
+    content: '';
+    position: absolute;
+    top: 12px; right: 12px;
+    width: 22px; height: 22px;
+    border-radius: 50%;
+    background: var(--brand-red);
+    box-shadow: inset 0 0 0 4px var(--paper), 0 0 0 1px var(--brand-red);
+  }
+  .rfc-card .rfc-name {
+    font-family: var(--cond);
+    font-style: italic;
+    font-weight: 800;
+    font-size: 1.5rem;
+    color: var(--brand-navy);
+    line-height: 1;
+  }
+  .rfc-card.default-mark .rfc-name::after {
+    content: 'predeterminado';
+    display: inline-block;
+    margin-left: 0.5rem;
+    font-family: var(--mono);
+    font-style: normal;
+    font-weight: 400;
+    font-size: 0.55rem;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    color: var(--brand-red);
+    border: 1px solid var(--brand-red);
+    padding: 2px 5px;
+    border-radius: 2px;
+    vertical-align: middle;
+  }
+  .rfc-card .rfc-id {
+    font-family: var(--mono);
+    font-size: 0.85rem;
+    color: var(--brand-red);
+    font-weight: 500;
+    letter-spacing: 0.05em;
+  }
+  .rfc-card .rfc-meta {
+    display: flex; flex-direction: column; gap: 0.3rem;
+    font-size: 0.83rem;
+    color: var(--text-soft);
+    padding-top: 0.75rem;
+    border-top: 1px solid var(--rule);
+  }
+  .rfc-card .rfc-meta dt {
+    display: inline;
+    font-family: var(--mono);
+    font-size: 0.62rem;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    color: var(--text-faint);
+    margin-right: 0.5rem;
+  }
+  .rfc-card .rfc-meta dd { display: inline; }
+  .rfc-card .rfc-meta div { line-height: 1.5; }
+
+  /* === DROPZONE === */
+  .dropzone {
+    border: 2px dashed var(--rule);
+    background: var(--paper-soft);
+    padding: 3rem 2rem;
+    text-align: center;
+    border-radius: 0;
+    cursor: pointer;
+    transition: all 0.25s;
+    position: relative;
+  }
+  .dropzone:hover, .dropzone.dragover {
+    border-color: var(--brand-red);
+    background: #fff8f8;
+  }
+  .dropzone .dz-icon {
+    width: 56px; height: 56px;
+    margin: 0 auto 0.85rem;
+    color: var(--brand-navy);
+  }
+  .dropzone .dz-title {
+    font-family: var(--cond);
+    font-style: italic;
+    font-weight: 700;
+    font-size: 1.2rem;
+    color: var(--brand-navy);
+    margin-bottom: 0.3rem;
+  }
+  .dropzone .dz-sub {
+    font-size: 0.85rem;
+    color: var(--text-soft);
+  }
+  .dropzone .dz-formats {
+    font-family: var(--mono);
+    font-size: 0.65rem;
+    color: var(--text-faint);
+    margin-top: 0.85rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+  }
+  .dropzone input[type=file] {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    cursor: pointer;
+  }
+
+  .preview {
+    margin-top: 1.25rem;
+    padding: 1rem;
+    border: 1px solid var(--rule);
+    background: var(--paper);
+    display: none;
+  }
+  .preview.show { display: flex; gap: 1rem; align-items: flex-start; }
+  .preview img {
+    width: 90px; height: 90px;
+    object-fit: cover;
+    border: 1px solid var(--rule);
+  }
+  .preview .preview-doc {
+    width: 90px; height: 90px;
+    display: flex; align-items: center; justify-content: center;
+    background: var(--paper-soft);
+    border: 1px solid var(--rule);
+    font-family: var(--cond);
+    font-style: italic;
+    font-weight: 800;
+    color: var(--brand-navy);
+    font-size: 1.2rem;
+  }
+  .preview .preview-info { flex: 1; }
+  .preview .preview-name {
+    font-weight: 600;
+    color: var(--brand-navy);
+    word-break: break-all;
+    margin-bottom: 0.3rem;
+  }
+  .preview .preview-meta {
+    font-family: var(--mono);
+    font-size: 0.72rem;
+    color: var(--text-soft);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+  }
+  .preview .preview-remove {
+    background: none;
+    border: 1px solid var(--rule);
+    color: var(--text-soft);
+    font-family: var(--mono);
+    font-size: 0.65rem;
+    padding: 0.3rem 0.6rem;
+    cursor: pointer;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+  }
+  .preview .preview-remove:hover {
+    border-color: var(--brand-red);
+    color: var(--brand-red);
+  }
+
+  /* === FORM FIELDS === */
+  .field {
+    margin-bottom: 1.25rem;
+  }
+  .field label {
+    display: block;
+    font-family: var(--mono);
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    color: var(--text-soft);
+    margin-bottom: 0.5rem;
+  }
+  .field label .req { color: var(--brand-red); }
+  .field input[type=email],
+  .field input[type=text] {
+    width: 100%;
+    padding: 0.85rem 1rem;
+    font-family: var(--sans);
+    font-size: 1rem;
+    color: var(--brand-navy);
+    border: 1px solid var(--rule);
+    background: var(--paper);
+    transition: all 0.2s;
+    border-radius: 0;
+  }
+  .field input[type=email]:focus,
+  .field input[type=text]:focus {
+    outline: none;
+    border-color: var(--brand-red);
+    box-shadow: 0 0 0 3px rgba(200,32,46,0.1);
+  }
+  .field .help {
+    font-size: 0.78rem;
+    color: var(--text-soft);
+    margin-top: 0.4rem;
+    line-height: 1.5;
+  }
+  .field .help button {
+    background: none;
+    border: 0;
+    color: var(--brand-red);
+    font-family: var(--sans);
+    font-size: 0.78rem;
+    cursor: pointer;
+    text-decoration: underline;
+    padding: 0;
+  }
+
+  /* === REVIEW === */
+  .review-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0;
+    border: 1px solid var(--rule);
+    background: var(--paper);
+  }
+  .review-row {
+    grid-column: 1 / 3;
+    display: grid;
+    grid-template-columns: 9rem 1fr;
+    padding: 1rem 1.25rem;
+    border-bottom: 1px solid var(--rule);
+    align-items: baseline;
+  }
+  .review-row:last-child { border-bottom: 0; }
+  .review-row dt {
+    font-family: var(--mono);
+    font-size: 0.65rem;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    color: var(--text-soft);
+  }
+  .review-row dd {
+    color: var(--brand-navy);
+    font-weight: 500;
+  }
+  .review-row dd .rfc-num {
+    font-family: var(--mono);
+    color: var(--brand-red);
+    margin-left: 0.5rem;
+    font-weight: 400;
+  }
+
+  /* === BUTTONS === */
+  .actions {
+    margin-top: 2rem;
+    display: flex; justify-content: space-between; align-items: center;
+    gap: 1rem;
+  }
+  .btn {
+    padding: 0.85rem 1.5rem;
+    font-family: var(--cond);
+    font-style: italic;
+    font-weight: 700;
+    font-size: 0.95rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    border-radius: 0;
+    cursor: pointer;
+    transition: all 0.2s;
+    border: 2px solid;
+    display: inline-flex; align-items: center; gap: 0.5rem;
+  }
+  .btn-primary {
+    background: var(--brand-red);
+    color: var(--paper);
+    border-color: var(--brand-red);
+  }
+  .btn-primary:hover:not(:disabled) {
+    background: var(--brand-red-deep);
+    border-color: var(--brand-red-deep);
+  }
+  .btn-primary:disabled {
+    opacity: 0.4; cursor: not-allowed;
+  }
+  .btn-secondary {
+    background: var(--paper);
+    color: var(--brand-navy);
+    border-color: var(--rule);
+  }
+  .btn-secondary:hover {
+    border-color: var(--brand-navy);
+  }
+  .btn .arrow { font-family: var(--sans); font-style: normal; }
+
+  /* === SUCCESS === */
+  .success-pane {
+    text-align: center;
+    padding: 2rem 0;
+  }
+  .success-pane .check {
+    width: 80px; height: 80px;
+    border-radius: 50%;
+    background: var(--brand-red);
+    color: var(--paper);
+    margin: 0 auto 1.5rem;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 2.5rem;
+    font-family: var(--sans);
+    font-weight: 600;
+    animation: pop 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+  @keyframes pop {
+    0% { transform: scale(0); }
+    100% { transform: scale(1); }
+  }
+  .success-pane h2 {
+    font-family: var(--cond);
+    font-style: italic;
+    font-weight: 700;
+    font-size: 2rem;
+    color: var(--brand-navy);
+    margin-bottom: 0.5rem;
+  }
+  .success-pane h2 .red { color: var(--brand-red); }
+  .success-pane p {
+    color: var(--text-soft);
+    max-width: 50ch;
+    margin: 0 auto 1.5rem;
+  }
+  .success-payload {
+    background: var(--paper-soft);
+    border: 1px solid var(--rule);
+    border-left: 3px solid var(--brand-red);
+    padding: 1rem 1.25rem;
+    margin: 1.5rem auto 0;
+    max-width: 600px;
+    text-align: left;
+    font-family: var(--mono);
+    font-size: 0.78rem;
+    line-height: 1.65;
+    color: var(--text);
+    white-space: pre;
+    overflow-x: auto;
+  }
+  .success-actions {
+    display: flex; gap: 0.75rem; justify-content: center; margin-top: 1.5rem;
+    flex-wrap: wrap;
+  }
+  .ref-id {
+    font-family: var(--mono);
+    font-size: 0.75rem;
+    color: var(--text-soft);
+    margin-top: 1rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+  }
+  .ref-id strong { color: var(--brand-navy); font-weight: 500; }
+
+  /* === INTAKE INFO === */
+  .intake-info {
+    margin-top: 1.5rem;
+    padding: 0.85rem 1.1rem;
+    border-left: 3px solid var(--brand-navy);
+    background: var(--paper-soft);
+    font-size: 0.82rem;
+    color: var(--text-soft);
+  }
+  .intake-info strong { color: var(--brand-navy); }
+
+  @media (max-width: 720px) {
+    .top-chrome, .bottom-chrome { padding-left: 1.25rem; padding-right: 1.25rem; }
+    .container { padding: 1.5rem 1rem; }
+    .rfc-grid { grid-template-columns: 1fr; }
+    .stepper { grid-template-columns: 1fr 12px 1fr 12px 1fr 12px 1fr; }
+    .step-pill .lbl { display: none; }
+    .review-row { grid-template-columns: 1fr; gap: 0.3rem; }
+    .actions { flex-direction: column-reverse; }
+    .actions .btn { width: 100%; justify-content: center; }
+  }
+</style>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <symbol id="aliacer-mark" viewBox="0 0 100 100">
+      <path d="M 50 8 A 42 42 0 1 1 79 86" fill="none" stroke="#c8202e" stroke-width="7" stroke-linecap="round"/>
+      <path d="M 22 70 L 50 30 L 78 70" fill="none" stroke="#c8202e" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"/>
+    </symbol>
+  </defs>
+</svg>
+
+<div class="brand-strip"></div>
+
+<header class="top-chrome">
+  <div class="top-left">
+    <span class="doc-id">Portal interno · v1.0</span>
+    <span class="doc-section">Solicitud de facturación CFDI</span>
+  </div>
+  <div class="top-right">
+    <span class="aliacer-logo">
+      <svg width="22" height="22"><use href="#aliacer-mark"/></svg>
+      <span class="word">ALIACER</span>
+    </span>
+    <span class="tagline">
+      La unión de
+      <span class="pl-mark">
+        <span class="perfiles">PERFILES</span><span class="lm">LM</span><span class="galvasid">GALVASID</span>
+      </span>
+    </span>
+  </div>
+</header>
+
+<main class="container">
+
+  <div class="portal-header">
+    <span class="portal-eyebrow">Facturador automático</span>
+    <h1 class="portal-title">Genera tu <span class="red">factura</span> en tres pasos.</h1>
+    <p class="portal-sub">Elige el RFC al que va dirigida, sube la foto del ticket, indica el correo de destino. El equipo procesará la solicitud y te llegará el PDF y el XML.</p>
+  </div>
+
+  <!-- STEPPER -->
+  <div class="stepper" id="stepper">
+    <div class="step-pill active" data-step="1"><div class="num">01</div><div class="lbl">RFC</div></div>
+    <div class="step-line"></div>
+    <div class="step-pill" data-step="2"><div class="num">02</div><div class="lbl">Ticket</div></div>
+    <div class="step-line"></div>
+    <div class="step-pill" data-step="3"><div class="num">03</div><div class="lbl">Correo</div></div>
+    <div class="step-line"></div>
+    <div class="step-pill" data-step="4"><div class="num">04</div><div class="lbl">Enviar</div></div>
+  </div>
+
+  <!-- STEP 1: RFC -->
+  <section class="step-pane active" data-pane="1">
+    <div class="step-heading">
+      <h2>¿A qué <span class="red">RFC</span> va dirigida la factura?</h2>
+      <p>Elige la entidad del grupo Aliacer a la que se emitirá el CFDI.</p>
+    </div>
+
+    <div class="rfc-grid">
+      <div class="rfc-card default-mark" data-rfc-alias="perfiles_lm" data-rfc-id="PHL640201RE4" data-rfc-name="Perfiles LM">
+        <div class="rfc-name">Perfiles LM</div>
+        <div class="rfc-id">PHL640201RE4</div>
+        <dl class="rfc-meta">
+          <div><dt>Razón social</dt><dd>PERFILES LM</dd></div>
+          <div><dt>Régimen</dt><dd>601 · Personas Morales</dd></div>
+          <div><dt>CP</dt><dd>66632</dd></div>
+        </dl>
+      </div>
+      <div class="rfc-card" data-rfc-alias="galvasid" data-rfc-id="GAL030220KK5" data-rfc-name="Galvasid">
+        <div class="rfc-name">Galvasid</div>
+        <div class="rfc-id">GAL030220KK5</div>
+        <dl class="rfc-meta">
+          <div><dt>Razón social</dt><dd>GALVASID</dd></div>
+          <div><dt>Régimen</dt><dd>601 · Personas Morales</dd></div>
+          <div><dt>CP</dt><dd>66633</dd></div>
+        </dl>
+      </div>
+    </div>
+
+    <div class="actions">
+      <button class="btn btn-secondary" disabled style="visibility:hidden;">&larr;</button>
+      <button class="btn btn-primary" id="next-1" disabled>Siguiente <span class="arrow">&rarr;</span></button>
+    </div>
+  </section>
+
+  <!-- STEP 2: TICKET -->
+  <section class="step-pane" data-pane="2">
+    <div class="step-heading">
+      <h2>Sube la <span class="red">foto</span> del ticket.</h2>
+      <p>Acepta JPG, PNG, PDF o XML. Asegúrate de que el folio, fecha y total se lean con claridad.</p>
+    </div>
+
+    <label class="dropzone" id="dropzone">
+      <svg class="dz-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+      <div class="dz-title">Arrastra aquí tu ticket</div>
+      <div class="dz-sub">o haz click para elegir el archivo</div>
+      <div class="dz-formats">JPG · PNG · PDF · XML &nbsp;·&nbsp; máx. 10 MB</div>
+      <input type="file" id="ticket-file" accept="image/*,application/pdf,text/xml,application/xml">
+    </label>
+
+    <div class="preview" id="preview">
+      <div id="preview-thumb"></div>
+      <div class="preview-info">
+        <div class="preview-name" id="preview-name"></div>
+        <div class="preview-meta" id="preview-meta"></div>
+      </div>
+      <button class="preview-remove" id="preview-remove">Quitar</button>
+    </div>
+
+    <div class="actions">
+      <button class="btn btn-secondary" id="prev-2"><span class="arrow">&larr;</span> Atrás</button>
+      <button class="btn btn-primary" id="next-2" disabled>Siguiente <span class="arrow">&rarr;</span></button>
+    </div>
+  </section>
+
+  <!-- STEP 3: EMAIL -->
+  <section class="step-pane" data-pane="3">
+    <div class="step-heading">
+      <h2>¿A qué <span class="red">correo</span> mandamos la factura?</h2>
+      <p>Te enviaremos el PDF y el XML a esta dirección. Puedes usar el correo predeterminado o uno distinto.</p>
+    </div>
+
+    <div class="field">
+      <label for="email-input">Correo de destino <span class="req">*</span></label>
+      <input type="email" id="email-input" placeholder="usuario@ejemplo.com" value="aromo@aliacer.com" required>
+      <div class="help">
+        Predeterminado: <strong style="color:var(--brand-navy);">aromo@aliacer.com</strong> &middot;
+        <button type="button" id="email-reset">restaurar predeterminado</button>
+      </div>
+    </div>
+
+    <div class="actions">
+      <button class="btn btn-secondary" id="prev-3"><span class="arrow">&larr;</span> Atrás</button>
+      <button class="btn btn-primary" id="next-3">Siguiente <span class="arrow">&rarr;</span></button>
+    </div>
+  </section>
+
+  <!-- STEP 4: REVIEW & SEND -->
+  <section class="step-pane" data-pane="4">
+    <div class="step-heading">
+      <h2>Confirma y <span class="red">envía</span>.</h2>
+      <p>Revisa que todo esté correcto antes de enviar la solicitud al equipo de facturación.</p>
+    </div>
+
+    <dl class="review-grid">
+      <div class="review-row">
+        <dt>RFC receptor</dt>
+        <dd id="rv-rfc">—</dd>
+      </div>
+      <div class="review-row">
+        <dt>Ticket</dt>
+        <dd id="rv-ticket">—</dd>
+      </div>
+      <div class="review-row">
+        <dt>Correo destino</dt>
+        <dd id="rv-email">—</dd>
+      </div>
+    </dl>
+
+    <div class="intake-info">
+      <strong>Cómo se procesa:</strong> tu solicitud llegará al equipo de Aliacer con el ticket adjunto. Un operador (o un agente automatizado) entrará al portal de la cadena, llenará tus datos fiscales y te enviará el CFDI por correo. Si el ticket requiere CAPTCHA, te avisaremos para resolverlo.
+    </div>
+
+    <div class="actions">
+      <button class="btn btn-secondary" id="prev-4"><span class="arrow">&larr;</span> Atrás</button>
+      <button class="btn btn-primary" id="submit-btn">Enviar solicitud <span class="arrow">&rarr;</span></button>
+    </div>
+  </section>
+
+  <!-- SUCCESS -->
+  <section class="step-pane" data-pane="5">
+    <div class="success-pane">
+      <div class="check">&check;</div>
+      <h2>Solicitud <span class="red">enviada</span>.</h2>
+      <p>Recibimos tu solicitud y la mandamos al equipo de facturación. Recibirás el CFDI en el correo indicado en cuanto se timbre.</p>
+
+      <p class="ref-id">Folio interno: <strong id="ref-id">—</strong></p>
+
+      <div class="success-actions">
+        <button class="btn btn-secondary" id="download-payload">Descargar payload</button>
+        <button class="btn btn-primary" id="new-request">Nueva solicitud</button>
+      </div>
+
+      <pre class="success-payload" id="success-payload"></pre>
+    </div>
+  </section>
+
+</main>
+
+<footer class="bottom-chrome">
+  <span class="pl-mark">
+    <span class="perfiles">PERFILES</span><span class="lm">LM</span><span class="galvasid">GALVASID</span>
+  </span>
+  <span>Aliacer &middot; Portal de facturación &middot; MMXXVI</span>
+  <span class="aliacer-logo">
+    <svg width="18" height="18"><use href="#aliacer-mark"/></svg>
+    <span class="word">ALIACER</span>
+  </span>
+</footer>
+
+<script>
+  // === CONFIGURATION ===
+  // Backend: Web3Forms (https://web3forms.com)
+  // Para activarlo, pon aquí tu access_key (la obtienes gratis en web3forms.com con tu email).
+  // Si lo dejas vacío, el formulario funcionará en "modo demo": no envía a ningún lado, solo muestra y descarga el payload.
+  const WEB3FORMS_KEY = '';   // ej. 'a1b2c3d4-1234-5678-9abc-def012345678'
+  const WEB3FORMS_URL = 'https://api.web3forms.com/submit';
+
+  // === STATE ===
+  const state = {
+    step: 1,
+    rfc: null,           // { alias, rfc, nombre, razon_social, regimen, cp }
+    ticket: null,        // File
+    email: 'aromo@aliacer.com',
+    refId: null,
+  };
+
+  // === ELEMENTS ===
+  const panes = document.querySelectorAll('.step-pane');
+  const pills = document.querySelectorAll('.step-pill');
+  const lines = document.querySelectorAll('.step-line');
+
+  function go(step) {
+    state.step = step;
+    panes.forEach(p => p.classList.toggle('active', +p.dataset.pane === step));
+    pills.forEach(p => {
+      const s = +p.dataset.step;
+      p.classList.toggle('active', s === step);
+      p.classList.toggle('done', s < step);
+    });
+    lines.forEach((l, i) => l.classList.toggle('done', i < step - 1));
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  // === STEP 1: RFC ===
+  document.querySelectorAll('.rfc-card').forEach(card => {
+    card.addEventListener('click', () => {
+      document.querySelectorAll('.rfc-card').forEach(c => c.classList.remove('selected'));
+      card.classList.add('selected');
+      state.rfc = {
+        alias: card.dataset.rfcAlias,
+        rfc: card.dataset.rfcId,
+        nombre: card.dataset.rfcName,
+        razon_social: card.querySelector('dd').textContent,
+        regimen: card.querySelectorAll('dd')[1].textContent,
+        cp: card.querySelectorAll('dd')[2].textContent,
+      };
+      document.getElementById('next-1').disabled = false;
+    });
+  });
+  document.getElementById('next-1').addEventListener('click', () => go(2));
+
+  // === STEP 2: TICKET UPLOAD ===
+  const dz = document.getElementById('dropzone');
+  const fileInput = document.getElementById('ticket-file');
+  const preview = document.getElementById('preview');
+  const previewThumb = document.getElementById('preview-thumb');
+  const previewName = document.getElementById('preview-name');
+  const previewMeta = document.getElementById('preview-meta');
+  const next2 = document.getElementById('next-2');
+
+  function handleFile(file) {
+    if (!file) return;
+    if (file.size > 10 * 1024 * 1024) {
+      alert('Archivo demasiado grande (máx. 10 MB).');
+      return;
+    }
+    state.ticket = file;
+    previewName.textContent = file.name;
+    previewMeta.textContent = `${(file.size / 1024).toFixed(1)} KB · ${file.type || 'sin tipo'}`;
+    previewThumb.innerHTML = '';
+    if (file.type.startsWith('image/')) {
+      const img = document.createElement('img');
+      img.src = URL.createObjectURL(file);
+      previewThumb.appendChild(img);
+    } else {
+      const ext = (file.name.split('.').pop() || 'doc').toUpperCase().slice(0, 4);
+      const div = document.createElement('div');
+      div.className = 'preview-doc';
+      div.textContent = ext;
+      previewThumb.appendChild(div);
+    }
+    preview.classList.add('show');
+    next2.disabled = false;
+  }
+
+  fileInput.addEventListener('change', e => handleFile(e.target.files[0]));
+  ['dragenter', 'dragover'].forEach(ev => dz.addEventListener(ev, e => {
+    e.preventDefault(); dz.classList.add('dragover');
+  }));
+  ['dragleave', 'drop'].forEach(ev => dz.addEventListener(ev, e => {
+    e.preventDefault(); dz.classList.remove('dragover');
+  }));
+  dz.addEventListener('drop', e => {
+    if (e.dataTransfer.files.length) handleFile(e.dataTransfer.files[0]);
+  });
+
+  document.getElementById('preview-remove').addEventListener('click', e => {
+    e.preventDefault(); e.stopPropagation();
+    state.ticket = null;
+    preview.classList.remove('show');
+    fileInput.value = '';
+    next2.disabled = true;
+  });
+
+  document.getElementById('prev-2').addEventListener('click', () => go(1));
+  document.getElementById('next-2').addEventListener('click', () => go(3));
+
+  // === STEP 3: EMAIL ===
+  const emailInput = document.getElementById('email-input');
+  document.getElementById('email-reset').addEventListener('click', () => {
+    emailInput.value = 'aromo@aliacer.com';
+  });
+  document.getElementById('prev-3').addEventListener('click', () => go(2));
+  document.getElementById('next-3').addEventListener('click', () => {
+    const v = emailInput.value.trim();
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v)) {
+      alert('Por favor escribe un correo válido.');
+      emailInput.focus();
+      return;
+    }
+    state.email = v;
+    fillReview();
+    go(4);
+  });
+
+  // === STEP 4: REVIEW ===
+  function fillReview() {
+    document.getElementById('rv-rfc').innerHTML =
+      `${state.rfc.nombre} <span class="rfc-num">${state.rfc.rfc}</span>`;
+    document.getElementById('rv-ticket').textContent =
+      `${state.ticket.name} (${(state.ticket.size/1024).toFixed(1)} KB)`;
+    document.getElementById('rv-email').textContent = state.email;
+  }
+  document.getElementById('prev-4').addEventListener('click', () => go(3));
+
+  // === SUBMIT ===
+  function genRefId() {
+    const ts = new Date();
+    const ymd = ts.toISOString().slice(0,10).replace(/-/g,'');
+    const rnd = Math.random().toString(36).slice(2,6).toUpperCase();
+    return `FAC-${ymd}-${rnd}`;
+  }
+
+  async function buildPayload() {
+    const refId = state.refId || genRefId();
+    state.refId = refId;
+    return {
+      ref_id: refId,
+      modo: 'web',
+      timestamp_solicitud: new Date().toISOString(),
+      rfc_alias: state.rfc.alias,
+      rfc_destinatario: {
+        rfc: state.rfc.rfc,
+        nombre: state.rfc.nombre,
+        razon_social: state.rfc.razon_social,
+      },
+      email_destino: state.email,
+      ticket: {
+        nombre_archivo: state.ticket.name,
+        tipo: state.ticket.type,
+        tamano_bytes: state.ticket.size,
+      },
+    };
+  }
+
+  document.getElementById('submit-btn').addEventListener('click', async () => {
+    const btn = document.getElementById('submit-btn');
+    btn.disabled = true;
+    btn.textContent = 'Enviando...';
+
+    const payload = await buildPayload();
+
+    try {
+      if (WEB3FORMS_KEY) {
+        // Real submission to Web3Forms with FormData (supports file upload)
+        const fd = new FormData();
+        fd.append('access_key', WEB3FORMS_KEY);
+        fd.append('subject', `[Aliacer · Facturación] ${payload.rfc_destinatario.nombre} · ${payload.ref_id}`);
+        fd.append('from_name', 'Portal Facturador Aliacer');
+        fd.append('ref_id', payload.ref_id);
+        fd.append('rfc_alias', payload.rfc_alias);
+        fd.append('rfc_receptor', payload.rfc_destinatario.rfc);
+        fd.append('rfc_nombre', payload.rfc_destinatario.nombre);
+        fd.append('email_destino', payload.email_destino);
+        fd.append('timestamp', payload.timestamp_solicitud);
+        fd.append('payload_json', JSON.stringify(payload, null, 2));
+        // Honeypot anti-spam
+        fd.append('botcheck', '');
+        // Archivo del ticket
+        fd.append('ticket', state.ticket, state.ticket.name);
+        const r = await fetch(WEB3FORMS_URL, { method: 'POST', body: fd });
+        const json = await r.json();
+        if (!json.success) throw new Error(json.message || 'Error desconocido del backend');
+      } else {
+        // Demo mode — pequeña espera para que se sienta como envío
+        await new Promise(r => setTimeout(r, 600));
+      }
+
+      document.getElementById('ref-id').textContent = payload.ref_id;
+      document.getElementById('success-payload').textContent = JSON.stringify(payload, null, 2);
+      go(5);
+    } catch (err) {
+      alert('Error al enviar: ' + err.message);
+      btn.disabled = false;
+      btn.innerHTML = 'Enviar solicitud <span class="arrow">&rarr;</span>';
+    }
+  });
+
+  // === DOWNLOAD PAYLOAD (sin backend) ===
+  document.getElementById('download-payload').addEventListener('click', async () => {
+    const payload = await buildPayload();
+    // Descarga el JSON + el ticket por separado
+    const jsonBlob = new Blob([JSON.stringify(payload, null, 2)], { type: 'application/json' });
+    const jsonUrl = URL.createObjectURL(jsonBlob);
+    const a1 = document.createElement('a');
+    a1.href = jsonUrl;
+    a1.download = `${payload.ref_id}-payload.json`;
+    a1.click();
+    URL.revokeObjectURL(jsonUrl);
+
+    const ticketUrl = URL.createObjectURL(state.ticket);
+    const a2 = document.createElement('a');
+    a2.href = ticketUrl;
+    a2.download = `${payload.ref_id}-${state.ticket.name}`;
+    a2.click();
+    URL.revokeObjectURL(ticketUrl);
+  });
+
+  document.getElementById('new-request').addEventListener('click', () => {
+    state.rfc = null;
+    state.ticket = null;
+    state.email = 'aromo@aliacer.com';
+    state.refId = null;
+    document.querySelectorAll('.rfc-card').forEach(c => c.classList.remove('selected'));
+    document.getElementById('next-1').disabled = true;
+    preview.classList.remove('show');
+    fileInput.value = '';
+    next2.disabled = true;
+    emailInput.value = 'aromo@aliacer.com';
+    const btn = document.getElementById('submit-btn');
+    btn.disabled = false;
+    btn.innerHTML = 'Enviar solicitud <span class="arrow">&rarr;</span>';
+    go(1);
+  });
+</script>
+</body>
+</html>
