@@ -847,12 +847,9 @@
 
 <script>
   // === CONFIGURATION ===
-  // Backend: FormSubmit (https://formsubmit.co) — gratis, sin signup, soporta adjuntos.
-  // Pon el email de intake del operador aquí. Primera vez FormSubmit envía un correo de activación;
-  // hay que clickear el link UNA vez y después funciona definitivo.
-  // Si lo dejas vacío, el formulario corre en "modo demo".
-  const FORMSUBMIT_EMAIL = 'bot.ia.app@gilm.com.mx';
-  const FORMSUBMIT_URL = FORMSUBMIT_EMAIL ? `https://formsubmit.co/ajax/${encodeURIComponent(FORMSUBMIT_EMAIL)}` : '';
+  // Backend: Cloudflare Worker propio (facturas-intake) → guarda en KV + manda email vía Resend.
+  // Si lo dejas vacío, el formulario corre en "modo demo" (solo descarga el payload local).
+  const WORKER_URL = 'https://facturas-intake.aromoaliacer.workers.dev/submit';
 
   // === STATE ===
   const state = {
@@ -1020,34 +1017,20 @@
     const payload = await buildPayload();
 
     try {
-      if (FORMSUBMIT_URL) {
-        // Real submission to FormSubmit (https://formsubmit.co) — supports file uploads on free tier
+      if (WORKER_URL) {
+        // Submission al Worker propio en Cloudflare
         const fd = new FormData();
-        // FormSubmit special fields (prefijo _)
-        fd.append('_subject', `[Aliacer · Facturación] ${payload.rfc_destinatario.nombre} · ${payload.ref_id}`);
-        fd.append('_template', 'box');
-        fd.append('_captcha', 'false');
-        fd.append('_replyto', payload.email_destino);
-        // Honeypot anti-spam
-        fd.append('_honey', '');
-        // Datos de la solicitud
         fd.append('ref_id', payload.ref_id);
         fd.append('rfc_alias', payload.rfc_alias);
         fd.append('rfc_receptor', payload.rfc_destinatario.rfc);
         fd.append('rfc_nombre', payload.rfc_destinatario.nombre);
         fd.append('email_destino', payload.email_destino);
         fd.append('timestamp', payload.timestamp_solicitud);
-        fd.append('payload_json', JSON.stringify(payload, null, 2));
-        // Archivo del ticket (FormSubmit adjunta cualquier campo File)
         fd.append('ticket', state.ticket, state.ticket.name);
-        const r = await fetch(FORMSUBMIT_URL, {
-          method: 'POST',
-          headers: { 'Accept': 'application/json' },
-          body: fd,
-        });
+        const r = await fetch(WORKER_URL, { method: 'POST', body: fd });
         const json = await r.json();
-        if (json.success !== 'true' && json.success !== true) {
-          throw new Error(json.message || 'Error desconocido del backend');
+        if (!json.success) {
+          throw new Error(json.error || `HTTP ${r.status}`);
         }
       } else {
         // Demo mode — pequeña espera para que se sienta como envío
