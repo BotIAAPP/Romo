@@ -669,6 +669,204 @@
   }
   .intake-info strong { color: var(--brand-navy); }
 
+  /* === TABS ENTRE VISTAS === */
+  .tabs {
+    display: flex;
+    border-bottom: 1px solid var(--rule);
+    background: var(--paper);
+    padding: 0 2.5rem;
+  }
+  .tab {
+    background: none;
+    border: 0;
+    padding: 0.95rem 1.25rem 0.85rem;
+    font-family: var(--cond);
+    font-style: italic;
+    font-weight: 700;
+    font-size: 1.05rem;
+    color: var(--text-soft);
+    cursor: pointer;
+    border-bottom: 3px solid transparent;
+    transition: all 0.2s;
+    letter-spacing: 0.01em;
+  }
+  .tab:hover { color: var(--brand-dark); }
+  .tab.active {
+    color: var(--brand-accent);
+    border-bottom-color: var(--brand-accent);
+  }
+
+  .view { display: none; }
+  .view.active { display: block; }
+
+  /* === CONSULTA (Mis solicitudes) === */
+  .consulta-search {
+    display: flex; gap: 0.6rem; flex-wrap: wrap;
+    margin: 1.5rem 0 2rem;
+    align-items: center;
+  }
+  .consulta-search input {
+    flex: 1;
+    min-width: 250px;
+    padding: 0.85rem 1rem;
+    font-family: var(--sans);
+    font-size: 1rem;
+    color: var(--brand-navy);
+    border: 1px solid var(--rule);
+    background: var(--paper);
+    border-radius: 0;
+  }
+  .consulta-search input:focus {
+    outline: none;
+    border-color: var(--brand-accent);
+    box-shadow: 0 0 0 3px rgba(200,32,46,0.1);
+  }
+  .consulta-msg {
+    color: var(--text-soft);
+    font-size: 0.95rem;
+    margin: 1rem 0;
+  }
+  .consulta-msg.error { color: var(--brand-accent); }
+
+  .consulta-stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    gap: 0.6rem;
+    margin: 1.25rem 0;
+  }
+  .consulta-stat {
+    padding: 0.85rem 1rem;
+    background: var(--paper-soft);
+    border: 1px solid var(--rule);
+    border-left: 3px solid var(--brand-dark);
+  }
+  .consulta-stat .v {
+    font-family: var(--cond);
+    font-style: italic;
+    font-weight: 800;
+    font-size: 1.8rem;
+    color: var(--brand-dark);
+    line-height: 1;
+  }
+  .consulta-stat .l {
+    font-family: var(--mono);
+    font-size: 0.62rem;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    color: var(--text-soft);
+    margin-top: 0.25rem;
+  }
+  .consulta-stat.timbrada { border-left-color: var(--success); }
+  .consulta-stat.timbrada .v { color: var(--success); }
+  .consulta-stat.proceso  { border-left-color: var(--brand-dark); }
+  .consulta-stat.fuera    { border-left-color: var(--brand-accent); }
+  .consulta-stat.fuera .v { color: var(--brand-accent); }
+
+  table.solicitudes {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.92rem;
+    margin-top: 1rem;
+  }
+  table.solicitudes thead th {
+    text-align: left;
+    padding: 0.7rem 0.75rem;
+    background: var(--paper-soft);
+    border-bottom: 2px solid var(--brand-dark);
+    font-family: var(--mono);
+    font-size: 0.65rem;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    color: var(--text-soft);
+    white-space: nowrap;
+  }
+  table.solicitudes tbody td {
+    padding: 0.75rem;
+    border-bottom: 1px solid var(--rule-soft);
+    vertical-align: top;
+  }
+  table.solicitudes tbody tr:hover { background: var(--paper-soft); }
+  table.solicitudes .ref {
+    font-family: var(--mono);
+    font-size: 0.82rem;
+    color: var(--brand-accent);
+    font-weight: 500;
+    white-space: nowrap;
+  }
+  table.solicitudes .rfc-chip {
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: 2px;
+    font-family: var(--cond);
+    font-style: italic;
+    font-weight: 700;
+    font-size: 0.78rem;
+    color: white;
+  }
+  table.solicitudes .rfc-chip.perfiles_lm { background: var(--c-perfiles); }
+  table.solicitudes .rfc-chip.galvasid    { background: var(--c-galvasid); }
+  table.solicitudes .rfc-chip.indalum     { background: var(--c-indalum); }
+  table.solicitudes .rfc-chip.kobrex      { background: var(--c-kobrex); }
+  table.solicitudes .status-pill {
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: 2px;
+    font-family: var(--mono);
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    white-space: nowrap;
+  }
+  table.solicitudes .status-pill.timbrada          { background: #d1f0db; color: #1d5a36; }
+  table.solicitudes .status-pill.recibida          { background: var(--paper-soft); color: var(--text-soft); }
+  table.solicitudes .status-pill.en_proceso        { background: #e5edf9; color: var(--brand-dark); }
+  table.solicitudes .status-pill.esperando_humano  { background: #fff3d6; color: var(--warning); }
+  table.solicitudes .status-pill.fuera_de_plazo,
+  table.solicitudes .status-pill.datos_incompletos,
+  table.solicitudes .status-pill.ticket_ilegible,
+  table.solicitudes .status-pill.captcha_fallido,
+  table.solicitudes .status-pill.portal_caido,
+  table.solicitudes .status-pill.error             { background: #fde0e3; color: var(--brand-accent); }
+  table.solicitudes .total {
+    text-align: right;
+    font-family: var(--mono);
+    color: var(--brand-navy);
+    white-space: nowrap;
+  }
+  table.solicitudes .downloads {
+    display: flex; gap: 4px;
+    flex-wrap: nowrap;
+  }
+  table.solicitudes .dl-btn {
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 30px; height: 28px;
+    border: 1px solid var(--rule);
+    background: var(--paper);
+    color: var(--brand-dark);
+    text-decoration: none;
+    font-family: var(--mono);
+    font-size: 0.7rem;
+    font-weight: 700;
+    transition: all 0.2s;
+  }
+  table.solicitudes .dl-btn:hover {
+    border-color: var(--brand-accent);
+    color: var(--brand-accent);
+  }
+  table.solicitudes .dl-btn.disabled {
+    opacity: 0.3;
+    cursor: not-allowed;
+    pointer-events: none;
+  }
+  table.solicitudes .dl-btn.pdf { background: #fbe5e7; }
+  table.solicitudes .dl-btn.xml { background: #e5edf9; }
+  table.solicitudes .mensaje {
+    font-size: 0.82rem;
+    color: var(--text-soft);
+    line-height: 1.4;
+    max-width: 320px;
+  }
+
   @media (max-width: 720px) {
     .top-chrome, .bottom-chrome { padding-left: 1.25rem; padding-right: 1.25rem; }
     .container { padding: 1.5rem 1rem; }
@@ -702,7 +900,15 @@
   </div>
 </header>
 
+<nav class="tabs">
+  <button class="tab active" data-view="capturar">Solicitar factura</button>
+  <button class="tab" data-view="consultar">Mis solicitudes</button>
+</nav>
+
 <main class="container">
+
+  <!-- ============ VIEW: CAPTURAR (wizard original) ============ -->
+  <section class="view view-capturar active">
 
   <div class="portal-header">
     <span class="portal-eyebrow">Facturador automático</span>
@@ -878,6 +1084,29 @@
       <pre class="success-payload" id="success-payload"></pre>
     </div>
   </section>
+
+  </section>
+  <!-- /view-capturar -->
+
+  <!-- ============ VIEW: CONSULTAR (Mis solicitudes) ============ -->
+  <section class="view view-consultar">
+    <div class="portal-header">
+      <span class="portal-eyebrow">Consulta de solicitudes</span>
+      <h1 class="portal-title">Mis <span class="red">solicitudes</span> y descargas.</h1>
+      <p class="portal-sub">Escribe el correo donde estás recibiendo el CFDI para ver todas tus solicitudes y bajar el ticket, el PDF y el XML cuando ya estén timbradas.</p>
+    </div>
+
+    <div class="consulta-search">
+      <input type="email" id="consulta-email" placeholder="tu.correo@gilm.com.mx" value="aromo@aliacer.com" required>
+      <button class="btn btn-primary" id="consulta-buscar">Buscar <span class="arrow">&rarr;</span></button>
+    </div>
+
+    <div class="consulta-msg" id="consulta-msg"></div>
+    <div class="consulta-stats" id="consulta-stats" style="display:none;"></div>
+
+    <div id="consulta-tabla-wrap" style="overflow-x:auto;"></div>
+  </section>
+  <!-- /view-consultar -->
 
 </main>
 
@@ -1128,6 +1357,140 @@
     btn.disabled = false;
     btn.innerHTML = 'Enviar solicitud <span class="arrow">&rarr;</span>';
     go(1);
+  });
+
+  // ===================================================================
+  // TABS — alternar entre vistas "Solicitar" y "Mis solicitudes"
+  // ===================================================================
+  document.querySelectorAll('.tabs .tab').forEach(tab => {
+    tab.addEventListener('click', () => {
+      const view = tab.dataset.view;
+      document.querySelectorAll('.tabs .tab').forEach(t => t.classList.toggle('active', t === tab));
+      document.querySelectorAll('.view').forEach(v => v.classList.toggle('active', v.classList.contains('view-' + view)));
+    });
+  });
+
+  // ===================================================================
+  // CONSULTA — vista "Mis solicitudes"
+  // ===================================================================
+  const LIST_URL = WORKER_URL.replace('/submit', '/list');
+
+  function esc(s) {
+    if (s == null) return '';
+    return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'})[c]);
+  }
+  function fmtFecha(iso) {
+    if (!iso) return '—';
+    const d = new Date(iso);
+    if (isNaN(d.getTime())) return iso;
+    return d.toLocaleDateString('es-MX', { day: '2-digit', month: 'short', year: 'numeric' });
+  }
+  function fmtMonto(n) {
+    if (n == null) return '—';
+    return '$' + Number(n).toLocaleString('es-MX', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+  }
+
+  function renderStats(solicitudes) {
+    const counts = { total: solicitudes.length, timbrada: 0, en_proceso: 0, recibida: 0, fuera: 0 };
+    for (const s of solicitudes) {
+      if (s.status === 'timbrada') counts.timbrada++;
+      else if (s.status === 'en_proceso' || s.status === 'esperando_humano') counts.en_proceso++;
+      else if (s.status === 'recibida') counts.recibida++;
+      else counts.fuera++;
+    }
+    const wrap = document.getElementById('consulta-stats');
+    wrap.style.display = 'grid';
+    wrap.innerHTML = `
+      <div class="consulta-stat"><div class="v">${counts.total}</div><div class="l">Total</div></div>
+      <div class="consulta-stat timbrada"><div class="v">${counts.timbrada}</div><div class="l">Timbradas</div></div>
+      <div class="consulta-stat proceso"><div class="v">${counts.en_proceso + counts.recibida}</div><div class="l">En proceso</div></div>
+      <div class="consulta-stat fuera"><div class="v">${counts.fuera}</div><div class="l">No facturables</div></div>
+    `;
+  }
+
+  function renderTabla(solicitudes) {
+    if (!solicitudes.length) {
+      document.getElementById('consulta-tabla-wrap').innerHTML = '';
+      return;
+    }
+    const rows = solicitudes.map(s => {
+      const ticketBtn = s.ticket_url
+        ? `<a class="dl-btn" href="${esc(s.ticket_url)}" target="_blank" rel="noopener" title="Bajar ticket original">TKT</a>`
+        : `<span class="dl-btn disabled" title="Sin ticket">TKT</span>`;
+      const pdfBtn = s.pdf_url
+        ? `<a class="dl-btn pdf" href="${esc(s.pdf_url)}" target="_blank" rel="noopener" title="Bajar CFDI PDF">PDF</a>`
+        : `<span class="dl-btn pdf disabled" title="Aún no hay PDF (factura no timbrada)">PDF</span>`;
+      const xmlBtn = s.xml_url
+        ? `<a class="dl-btn xml" href="${esc(s.xml_url)}" target="_blank" rel="noopener" title="Bajar CFDI XML">XML</a>`
+        : `<span class="dl-btn xml disabled" title="Aún no hay XML (factura no timbrada)">XML</span>`;
+      return `
+        <tr>
+          <td class="ref">${esc(s.ref_id)}</td>
+          <td>${fmtFecha(s.timestamp_solicitud)}</td>
+          <td><span class="rfc-chip ${esc(s.rfc_alias)}">${esc(s.rfc_alias)}</span></td>
+          <td>${esc(s.cadena || '—')}</td>
+          <td>${fmtFecha(s.fecha_compra)}</td>
+          <td class="total">${fmtMonto(s.total)}</td>
+          <td><span class="status-pill ${esc(s.status)}">${esc(s.status)}</span></td>
+          <td><div class="downloads">${ticketBtn}${pdfBtn}${xmlBtn}</div></td>
+          <td class="mensaje">${esc(s.mensaje || '')}</td>
+        </tr>`;
+    }).join('');
+
+    document.getElementById('consulta-tabla-wrap').innerHTML = `
+      <table class="solicitudes">
+        <thead>
+          <tr>
+            <th>Folio</th>
+            <th>Solicitada</th>
+            <th>RFC</th>
+            <th>Cadena</th>
+            <th>Compra</th>
+            <th style="text-align:right;">Total</th>
+            <th>Status</th>
+            <th>Descargas</th>
+            <th>Observaciones</th>
+          </tr>
+        </thead>
+        <tbody>${rows}</tbody>
+      </table>`;
+  }
+
+  async function buscar(email) {
+    const msg = document.getElementById('consulta-msg');
+    msg.classList.remove('error');
+    msg.textContent = 'Buscando...';
+    document.getElementById('consulta-stats').style.display = 'none';
+    document.getElementById('consulta-tabla-wrap').innerHTML = '';
+
+    try {
+      const r = await fetch(`${LIST_URL}?email=${encodeURIComponent(email)}`);
+      const data = await r.json();
+      if (!data.success) {
+        msg.classList.add('error');
+        msg.textContent = 'Error: ' + (data.error || 'desconocido');
+        return;
+      }
+      if (data.total === 0) {
+        msg.textContent = 'Sin solicitudes registradas para ese correo.';
+        return;
+      }
+      msg.textContent = `${data.total} solicitud${data.total === 1 ? '' : 'es'} para ${data.email}. Última actualización del índice: ${fmtFecha(data.generated_at)}.`;
+      renderStats(data.solicitudes);
+      renderTabla(data.solicitudes);
+    } catch (e) {
+      msg.classList.add('error');
+      msg.textContent = 'Error de red: ' + e.message;
+    }
+  }
+
+  document.getElementById('consulta-buscar').addEventListener('click', () => {
+    const v = document.getElementById('consulta-email').value.trim();
+    if (!v) return;
+    buscar(v);
+  });
+  document.getElementById('consulta-email').addEventListener('keydown', e => {
+    if (e.key === 'Enter') document.getElementById('consulta-buscar').click();
   });
 </script>
 </body>
