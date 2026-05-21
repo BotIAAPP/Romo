@@ -141,21 +141,21 @@
   /* === LAYOUT === */
   .container {
     flex: 1;
-    max-width: 880px;
+    max-width: 1080px;
     width: 100%;
     margin: 0 auto;
-    padding: 1.25rem 2rem 1.5rem;
+    padding: 0.85rem 2rem 1rem;
   }
 
   /* === HEADER === */
   .portal-header {
     text-align: center;
-    margin-bottom: 1.25rem;
+    margin-bottom: 0.85rem;
   }
   .portal-hero-logo {
     display: block;
-    margin: 0 auto 0.5rem;
-    max-height: 56px;
+    margin: 0 auto 0.35rem;
+    max-height: 48px;
     width: auto;
   }
   .portal-eyebrow {
@@ -199,7 +199,7 @@
     display: grid;
     grid-template-columns: 1fr 24px 1fr 24px 1fr 24px 1fr;
     align-items: center;
-    margin-bottom: 1.25rem;
+    margin-bottom: 0.85rem;
     gap: 0;
   }
   .step-pill {
@@ -277,17 +277,17 @@
   /* === RFC CARDS === */
   .rfc-grid {
     display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 0.9rem;
+    grid-template-columns: repeat(auto-fit, minmax(195px, 1fr));
+    gap: 0.75rem;
   }
   .rfc-card {
     --c: var(--brand-dark);  /* color brand de la tarjeta (override por --c-*) */
     cursor: pointer;
-    padding: 0.9rem 1rem;
+    padding: 0.8rem 0.9rem;
     border: 2px solid var(--rule);
     background: var(--paper);
     transition: all 0.25s;
-    display: flex; flex-direction: column; gap: 0.5rem;
+    display: flex; flex-direction: column; gap: 0.4rem;
     position: relative;
   }
   .rfc-card[data-rfc-alias="perfiles_lm"] { --c: var(--c-perfiles); }
@@ -355,10 +355,10 @@
     letter-spacing: 0.04em;
   }
   .rfc-card .rfc-meta {
-    display: flex; flex-direction: column; gap: 0.2rem;
-    font-size: 0.78rem;
+    display: flex; flex-direction: column; gap: 0.15rem;
+    font-size: 0.72rem;
     color: var(--text-soft);
-    padding-top: 0.5rem;
+    padding-top: 0.4rem;
     border-top: 1px solid var(--rule);
   }
   .rfc-card .rfc-meta dt {
@@ -896,7 +896,7 @@
   </div>
   <div class="top-right">
     <span class="gilm-logo">
-      <img src="assets/gilm-logo.svg" alt="GILM · Grupo Industrial LM">
+      <img src="assets/gilm-logo.png" alt="GILM · Grupo Industrial LM">
     </span>
     <span class="tagline">
       <span class="gilm-tag">
@@ -917,7 +917,7 @@
   <section class="view view-capturar active">
 
   <div class="portal-header">
-    <img class="portal-hero-logo" src="assets/gilm-logo.svg" alt="GILM · Grupo Industrial LM">
+    <img class="portal-hero-logo" src="assets/gilm-logo.png" alt="GILM · Grupo Industrial LM">
     <span class="portal-eyebrow">Facturador automático</span>
     <h1 class="portal-title">Genera tu <span class="red">factura</span> en cuatro pasos.</h1>
     <p class="portal-sub">Elige el RFC, sube el ticket, indica el correo. Te llegará el PDF y el XML.</p>
@@ -1098,7 +1098,7 @@
   <!-- ============ VIEW: CONSULTAR (Mis solicitudes) ============ -->
   <section class="view view-consultar">
     <div class="portal-header">
-      <img class="portal-hero-logo" src="assets/gilm-logo.svg" alt="GILM · Grupo Industrial LM">
+      <img class="portal-hero-logo" src="assets/gilm-logo.png" alt="GILM · Grupo Industrial LM">
       <span class="portal-eyebrow">Consulta de solicitudes</span>
       <h1 class="portal-title">Mis <span class="red">solicitudes</span> y descargas.</h1>
       <p class="portal-sub">Escribe el correo donde recibes el CFDI para ver tus solicitudes y bajar ticket, PDF y XML.</p>
@@ -1124,7 +1124,7 @@
   </span>
   <span>Grupo Industrial LM &middot; Portal de facturación &middot; MMXXVI</span>
   <span class="gilm-logo">
-    <img src="assets/gilm-logo.svg" alt="GILM">
+    <img src="assets/gilm-logo.png" alt="GILM">
   </span>
 </footer>
 
