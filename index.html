@@ -71,6 +71,9 @@
   .gilm-logo img {
     display: block;
     height: auto;
+    /* El logo oficial GILM es blanco-sobre-transparente (diseñado para fondos
+       oscuros); con invert lo volvemos negro-sobre-transparente para fondo blanco. */
+    filter: invert(1);
   }
   .gilm-tag {
     display: inline-flex; align-items: center; gap: 0.4em;
@@ -157,6 +160,8 @@
     margin: 0 auto 0.35rem;
     max-height: 48px;
     width: auto;
+    /* Logo oficial GILM viene en blanco; invert para fondo claro */
+    filter: invert(1);
   }
   .portal-eyebrow {
     display: inline-flex; align-items: center; gap: 0.5rem;
