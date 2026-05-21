@@ -97,7 +97,7 @@
   /* === CHROME === */
   .top-chrome {
     position: relative;
-    padding: 0.85rem 2.5rem;
+    padding: 0.5rem 2.5rem;
     display: flex; align-items: center; justify-content: space-between;
     border-bottom: 1px solid var(--rule);
     background: var(--paper);
@@ -118,8 +118,8 @@
     font-size: 1rem;
     color: var(--brand-navy);
   }
-  .top-right { display: flex; flex-direction: column; align-items: flex-end; gap: 0.2rem; }
-  .top-right .gilm-logo img { height: 32px; }
+  .top-right { display: flex; flex-direction: column; align-items: flex-end; gap: 0.15rem; }
+  .top-right .gilm-logo img { height: 26px; }
   .top-right .tagline {
     font-size: 0.6rem;
     color: var(--text-soft);
@@ -144,47 +144,53 @@
     max-width: 880px;
     width: 100%;
     margin: 0 auto;
-    padding: 2.5rem 2rem;
+    padding: 1.25rem 2rem 1.5rem;
   }
 
   /* === HEADER === */
   .portal-header {
     text-align: center;
-    margin-bottom: 2.5rem;
+    margin-bottom: 1.25rem;
+  }
+  .portal-hero-logo {
+    display: block;
+    margin: 0 auto 0.5rem;
+    max-height: 56px;
+    width: auto;
   }
   .portal-eyebrow {
-    display: inline-flex; align-items: center; gap: 0.55rem;
+    display: inline-flex; align-items: center; gap: 0.5rem;
     font-family: var(--mono);
-    font-size: 0.7rem;
+    font-size: 0.65rem;
     text-transform: uppercase;
     letter-spacing: 0.22em;
     color: var(--text-soft);
-    margin-bottom: 1rem;
+    margin-bottom: 0.5rem;
   }
   .portal-eyebrow::before {
     content: '';
-    width: 22px; height: 2px;
+    width: 18px; height: 2px;
     background: var(--brand-red);
   }
   .portal-eyebrow::after {
     content: '';
-    width: 22px; height: 2px;
+    width: 18px; height: 2px;
     background: var(--brand-red);
   }
   h1.portal-title {
     font-family: var(--cond);
     font-style: italic;
     font-weight: 700;
-    font-size: clamp(2rem, 4vw, 3.2rem);
-    line-height: 0.95;
+    font-size: clamp(1.5rem, 2.8vw, 2.2rem);
+    line-height: 1;
     color: var(--brand-navy);
-    margin-bottom: 0.6rem;
+    margin-bottom: 0.35rem;
   }
   h1.portal-title .red { color: var(--brand-red); }
   .portal-sub {
-    font-size: 1rem;
+    font-size: 0.92rem;
     color: var(--text-soft);
-    max-width: 52ch;
+    max-width: 56ch;
     margin: 0 auto;
   }
 
@@ -193,16 +199,16 @@
     display: grid;
     grid-template-columns: 1fr 24px 1fr 24px 1fr 24px 1fr;
     align-items: center;
-    margin-bottom: 2rem;
+    margin-bottom: 1.25rem;
     gap: 0;
   }
   .step-pill {
-    display: flex; flex-direction: column; align-items: center; gap: 0.3rem;
-    padding: 0.6rem 0;
+    display: flex; flex-direction: column; align-items: center; gap: 0.25rem;
+    padding: 0.4rem 0;
     cursor: default;
   }
   .step-pill .num {
-    width: 32px; height: 32px;
+    width: 28px; height: 28px;
     border-radius: 50%;
     background: var(--paper-shade);
     color: var(--text-faint);
@@ -210,7 +216,7 @@
     font-family: var(--cond);
     font-style: italic;
     font-weight: 800;
-    font-size: 1rem;
+    font-size: 0.9rem;
     border: 2px solid transparent;
     transition: all 0.3s;
   }
@@ -251,19 +257,19 @@
   }
 
   .step-heading {
-    margin-bottom: 1.5rem;
+    margin-bottom: 1rem;
   }
   .step-heading h2 {
     font-family: var(--cond);
     font-style: italic;
     font-weight: 700;
-    font-size: 1.7rem;
+    font-size: 1.4rem;
     color: var(--brand-navy);
-    margin-bottom: 0.35rem;
+    margin-bottom: 0.2rem;
   }
   .step-heading .red { color: var(--brand-red); }
   .step-heading p {
-    font-size: 0.95rem;
+    font-size: 0.88rem;
     color: var(--text-soft);
     max-width: 60ch;
   }
@@ -272,16 +278,16 @@
   .rfc-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 1.25rem;
+    gap: 0.9rem;
   }
   .rfc-card {
     --c: var(--brand-dark);  /* color brand de la tarjeta (override por --c-*) */
     cursor: pointer;
-    padding: 1.25rem 1.25rem 1.25rem;
+    padding: 0.9rem 1rem;
     border: 2px solid var(--rule);
     background: var(--paper);
     transition: all 0.25s;
-    display: flex; flex-direction: column; gap: 0.65rem;
+    display: flex; flex-direction: column; gap: 0.5rem;
     position: relative;
   }
   .rfc-card[data-rfc-alias="perfiles_lm"] { --c: var(--c-perfiles); }
@@ -307,12 +313,12 @@
     box-shadow: inset 0 0 0 4px var(--paper), 0 0 0 1px var(--c);
   }
   .rfc-card .rfc-logo {
-    height: 36px;
+    height: 28px;
     display: flex; align-items: center;
-    margin-bottom: 0.2rem;
+    margin-bottom: 0.1rem;
   }
   .rfc-card .rfc-logo img {
-    max-height: 36px;
+    max-height: 28px;
     max-width: 70%;
     object-fit: contain;
     object-position: left;
@@ -321,7 +327,7 @@
     font-family: var(--cond);
     font-style: italic;
     font-weight: 800;
-    font-size: 1.35rem;
+    font-size: 1.15rem;
     color: var(--c);
     line-height: 1;
   }
@@ -343,16 +349,16 @@
   }
   .rfc-card .rfc-id {
     font-family: var(--mono);
-    font-size: 0.85rem;
+    font-size: 0.78rem;
     color: var(--c);
     font-weight: 500;
-    letter-spacing: 0.05em;
+    letter-spacing: 0.04em;
   }
   .rfc-card .rfc-meta {
-    display: flex; flex-direction: column; gap: 0.3rem;
-    font-size: 0.83rem;
+    display: flex; flex-direction: column; gap: 0.2rem;
+    font-size: 0.78rem;
     color: var(--text-soft);
-    padding-top: 0.75rem;
+    padding-top: 0.5rem;
     border-top: 1px solid var(--rule);
   }
   .rfc-card .rfc-meta dt {
@@ -679,11 +685,11 @@
   .tab {
     background: none;
     border: 0;
-    padding: 0.95rem 1.25rem 0.85rem;
+    padding: 0.55rem 1rem 0.45rem;
     font-family: var(--cond);
     font-style: italic;
     font-weight: 700;
-    font-size: 1.05rem;
+    font-size: 0.95rem;
     color: var(--text-soft);
     cursor: pointer;
     border-bottom: 3px solid transparent;
@@ -911,9 +917,10 @@
   <section class="view view-capturar active">
 
   <div class="portal-header">
+    <img class="portal-hero-logo" src="assets/gilm-logo.svg" alt="GILM · Grupo Industrial LM">
     <span class="portal-eyebrow">Facturador automático</span>
-    <h1 class="portal-title">Genera tu <span class="red">factura</span> en tres pasos.</h1>
-    <p class="portal-sub">Elige el RFC al que va dirigida, sube la foto del ticket, indica el correo de destino. El equipo procesará la solicitud y te llegará el PDF y el XML.</p>
+    <h1 class="portal-title">Genera tu <span class="red">factura</span> en cuatro pasos.</h1>
+    <p class="portal-sub">Elige el RFC, sube el ticket, indica el correo. Te llegará el PDF y el XML.</p>
   </div>
 
   <!-- STEPPER -->
@@ -1091,9 +1098,10 @@
   <!-- ============ VIEW: CONSULTAR (Mis solicitudes) ============ -->
   <section class="view view-consultar">
     <div class="portal-header">
+      <img class="portal-hero-logo" src="assets/gilm-logo.svg" alt="GILM · Grupo Industrial LM">
       <span class="portal-eyebrow">Consulta de solicitudes</span>
       <h1 class="portal-title">Mis <span class="red">solicitudes</span> y descargas.</h1>
-      <p class="portal-sub">Escribe el correo donde estás recibiendo el CFDI para ver todas tus solicitudes y bajar el ticket, el PDF y el XML cuando ya estén timbradas.</p>
+      <p class="portal-sub">Escribe el correo donde recibes el CFDI para ver tus solicitudes y bajar ticket, PDF y XML.</p>
     </div>
 
     <div class="consulta-search">
