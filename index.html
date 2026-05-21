@@ -2,18 +2,25 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<title>ALIACER · Portal de Facturación</title>
+<title>GILM · Portal de Facturación</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Saira:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400;1,600;1,700&family=Saira+Condensed:ital,wght@0,500;0,700;0,800;1,500;1,700;1,800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
   :root {
-    --brand-red:       #c8202e;
-    --brand-red-deep:  #a01624;
-    --brand-navy:      #1f3d7a;
-    --brand-navy-deep: #142a5c;
-    --brand-navy-soft: #4a5e8c;
+    /* GILM brand */
+    --brand-ink:       #1a1a1a;    /* GILM negro principal */
+    --brand-dark:      #343a40;    /* GILM charcoal */
+    --brand-mid:       #76777b;    /* GILM gris medio */
+    --brand-accent:    #c8202e;    /* rojo acento (CTA principal) */
+    --brand-accent-d:  #a01624;
+    /* Colores brand por subsidiaria (RFC cards) */
+    --c-perfiles:      #881C20;
+    --c-galvasid:      #003B71;
+    --c-indalum:       #204797;
+    --c-kobrex:        #B97727;
+    /* Neutrals */
     --ink:             #1a1a1a;
     --text:            #2a2f3a;
     --text-soft:       #5a6478;
@@ -25,6 +32,12 @@
     --rule-soft:       #ebeef4;
     --success:         #1d8a4e;
     --warning:         #b6791a;
+    /* Backwards compat (legacy var names usados en código abajo) */
+    --brand-red:       var(--brand-accent);
+    --brand-red-deep:  var(--brand-accent-d);
+    --brand-navy:      var(--brand-dark);
+    --brand-navy-deep: var(--brand-ink);
+    --brand-navy-soft: var(--brand-mid);
     --sans: 'Saira', system-ui, sans-serif;
     --cond: 'Saira Condensed', 'Saira', sans-serif;
     --mono: 'JetBrains Mono', monospace;
@@ -44,35 +57,42 @@
   /* === BRAND ATOMS === */
   .brand-strip {
     height: 4px;
-    background: linear-gradient(90deg, var(--brand-navy-deep) 0%, var(--brand-navy) 30%, #6b6b8c 55%, var(--brand-red-deep) 85%, var(--brand-red) 100%);
+    /* Tira con los 4 colores brand de cada subsidiaria */
+    background: linear-gradient(90deg,
+      var(--c-perfiles) 0%, var(--c-perfiles) 25%,
+      var(--c-indalum)  25%, var(--c-indalum)  50%,
+      var(--c-galvasid) 50%, var(--c-galvasid) 75%,
+      var(--c-kobrex)   75%, var(--c-kobrex)   100%);
   }
-  .aliacer-logo {
-    display: inline-flex; align-items: center; gap: 0.55em;
+  .gilm-logo {
+    display: inline-flex; align-items: center; gap: 0.5em;
     line-height: 1;
   }
-  .aliacer-logo .word {
+  .gilm-logo img {
+    display: block;
+    height: auto;
+  }
+  .gilm-tag {
+    display: inline-flex; align-items: center; gap: 0.4em;
     font-family: var(--cond);
     font-style: italic;
-    font-weight: 800;
-    color: var(--brand-navy);
-    letter-spacing: 0.02em;
+    font-weight: 700;
     line-height: 1;
+    letter-spacing: 0.01em;
+    color: var(--brand-dark);
   }
-  .pl-mark {
-    display: inline-flex; align-items: center; gap: 0.18em;
-    font-family: var(--cond);
-    font-style: italic;
-    font-weight: 800;
-    line-height: 1;
+  .gilm-tag .sep {
+    display: inline-block;
+    width: 3px; height: 3px;
+    background: var(--brand-mid);
+    border-radius: 50%;
+    margin: 0 0.15em;
+    vertical-align: middle;
   }
-  .pl-mark .perfiles { color: var(--ink); }
-  .pl-mark .lm {
-    background: var(--brand-red);
-    color: var(--paper);
-    padding: 0.15em 0.4em 0.18em;
-    border-radius: 2px;
-  }
-  .pl-mark .galvasid { color: var(--brand-navy); margin-left: 0.18em; }
+  .gilm-tag .b-perfiles { color: var(--c-perfiles); }
+  .gilm-tag .b-indalum  { color: var(--c-indalum); }
+  .gilm-tag .b-galvasid { color: var(--c-galvasid); }
+  .gilm-tag .b-kobrex   { color: var(--c-kobrex); }
 
   /* === CHROME === */
   .top-chrome {
@@ -99,13 +119,13 @@
     color: var(--brand-navy);
   }
   .top-right { display: flex; flex-direction: column; align-items: flex-end; gap: 0.2rem; }
-  .top-right .aliacer-logo .word { font-size: 1.05rem; }
+  .top-right .gilm-logo img { height: 32px; }
   .top-right .tagline {
     font-size: 0.6rem;
     color: var(--text-soft);
     display: flex; align-items: center; gap: 0.35rem;
   }
-  .top-right .tagline .pl-mark { font-size: 0.62rem; }
+  .top-right .tagline .gilm-tag { font-size: 0.7rem; }
 
   .bottom-chrome {
     margin-top: auto;
@@ -115,8 +135,8 @@
     font-size: 0.7rem;
     color: var(--text-soft);
   }
-  .bottom-chrome .pl-mark { font-size: 0.78rem; }
-  .bottom-chrome .aliacer-logo .word { font-size: 0.9rem; }
+  .bottom-chrome .gilm-tag { font-size: 0.82rem; }
+  .bottom-chrome .gilm-logo img { height: 26px; }
 
   /* === LAYOUT === */
   .container {
@@ -255,22 +275,27 @@
     gap: 1.25rem;
   }
   .rfc-card {
+    --c: var(--brand-dark);  /* color brand de la tarjeta (override por --c-*) */
     cursor: pointer;
-    padding: 1.5rem 1.5rem 1.5rem;
+    padding: 1.25rem 1.25rem 1.25rem;
     border: 2px solid var(--rule);
     background: var(--paper);
     transition: all 0.25s;
-    display: flex; flex-direction: column; gap: 0.75rem;
+    display: flex; flex-direction: column; gap: 0.65rem;
     position: relative;
   }
+  .rfc-card[data-rfc-alias="perfiles_lm"] { --c: var(--c-perfiles); }
+  .rfc-card[data-rfc-alias="galvasid"]    { --c: var(--c-galvasid); }
+  .rfc-card[data-rfc-alias="indalum"]     { --c: var(--c-indalum); }
+  .rfc-card[data-rfc-alias="kobrex"]      { --c: var(--c-kobrex); }
   .rfc-card:hover {
-    border-color: var(--brand-navy);
+    border-color: var(--c);
     transform: translateY(-2px);
-    box-shadow: 0 6px 24px rgba(31,61,122,0.08);
+    box-shadow: 0 6px 24px rgba(0,0,0,0.08);
   }
   .rfc-card.selected {
-    border-color: var(--brand-red);
-    background: linear-gradient(180deg, #fff8f8 0%, var(--paper) 60%);
+    border-color: var(--c);
+    background: linear-gradient(180deg, color-mix(in srgb, var(--c) 8%, var(--paper)) 0%, var(--paper) 60%);
   }
   .rfc-card.selected::before {
     content: '';
@@ -278,15 +303,26 @@
     top: 12px; right: 12px;
     width: 22px; height: 22px;
     border-radius: 50%;
-    background: var(--brand-red);
-    box-shadow: inset 0 0 0 4px var(--paper), 0 0 0 1px var(--brand-red);
+    background: var(--c);
+    box-shadow: inset 0 0 0 4px var(--paper), 0 0 0 1px var(--c);
+  }
+  .rfc-card .rfc-logo {
+    height: 36px;
+    display: flex; align-items: center;
+    margin-bottom: 0.2rem;
+  }
+  .rfc-card .rfc-logo img {
+    max-height: 36px;
+    max-width: 70%;
+    object-fit: contain;
+    object-position: left;
   }
   .rfc-card .rfc-name {
     font-family: var(--cond);
     font-style: italic;
     font-weight: 800;
-    font-size: 1.5rem;
-    color: var(--brand-navy);
+    font-size: 1.35rem;
+    color: var(--c);
     line-height: 1;
   }
   .rfc-card.default-mark .rfc-name::after {
@@ -299,8 +335,8 @@
     font-size: 0.55rem;
     text-transform: uppercase;
     letter-spacing: 0.18em;
-    color: var(--brand-red);
-    border: 1px solid var(--brand-red);
+    color: var(--c);
+    border: 1px solid var(--c);
     padding: 2px 5px;
     border-radius: 2px;
     vertical-align: middle;
@@ -308,7 +344,7 @@
   .rfc-card .rfc-id {
     font-family: var(--mono);
     font-size: 0.85rem;
-    color: var(--brand-red);
+    color: var(--c);
     font-weight: 500;
     letter-spacing: 0.05em;
   }
@@ -647,15 +683,6 @@
 </head>
 <body>
 
-<svg width="0" height="0" style="position:absolute" aria-hidden="true">
-  <defs>
-    <symbol id="aliacer-mark" viewBox="0 0 100 100">
-      <path d="M 50 8 A 42 42 0 1 1 79 86" fill="none" stroke="#c8202e" stroke-width="7" stroke-linecap="round"/>
-      <path d="M 22 70 L 50 30 L 78 70" fill="none" stroke="#c8202e" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"/>
-    </symbol>
-  </defs>
-</svg>
-
 <div class="brand-strip"></div>
 
 <header class="top-chrome">
@@ -664,14 +691,12 @@
     <span class="doc-section">Solicitud de facturación CFDI</span>
   </div>
   <div class="top-right">
-    <span class="aliacer-logo">
-      <svg width="22" height="22"><use href="#aliacer-mark"/></svg>
-      <span class="word">ALIACER</span>
+    <span class="gilm-logo">
+      <img src="assets/gilm-logo.svg" alt="GILM · Grupo Industrial LM">
     </span>
     <span class="tagline">
-      La unión de
-      <span class="pl-mark">
-        <span class="perfiles">PERFILES</span><span class="lm">LM</span><span class="galvasid">GALVASID</span>
+      <span class="gilm-tag">
+        <span class="b-perfiles">Perfiles LM</span><span class="sep"></span><span class="b-indalum">Indalum</span><span class="sep"></span><span class="b-galvasid">Galvasid</span><span class="sep"></span><span class="b-kobrex">Kobrex</span>
       </span>
     </span>
   </div>
@@ -700,11 +725,12 @@
   <section class="step-pane active" data-pane="1">
     <div class="step-heading">
       <h2>¿A qué <span class="red">RFC</span> va dirigida la factura?</h2>
-      <p>Elige la entidad del grupo Aliacer a la que se emitirá el CFDI.</p>
+      <p>Elige la entidad del Grupo Industrial LM a la que se emitirá el CFDI.</p>
     </div>
 
     <div class="rfc-grid">
       <div class="rfc-card default-mark" data-rfc-alias="perfiles_lm" data-rfc-id="PHL640201RE4" data-rfc-name="Perfiles LM">
+        <div class="rfc-logo"><img src="assets/perfiles-logo-color.svg" alt="Perfiles LM"></div>
         <div class="rfc-name">Perfiles LM</div>
         <div class="rfc-id">PHL640201RE4</div>
         <dl class="rfc-meta">
@@ -714,6 +740,7 @@
         </dl>
       </div>
       <div class="rfc-card" data-rfc-alias="galvasid" data-rfc-id="GAL030220KK5" data-rfc-name="Galvasid">
+        <div class="rfc-logo"><img src="assets/galvasid-logo-color.svg" alt="Galvasid"></div>
         <div class="rfc-name">Galvasid</div>
         <div class="rfc-id">GAL030220KK5</div>
         <dl class="rfc-meta">
@@ -723,6 +750,7 @@
         </dl>
       </div>
       <div class="rfc-card" data-rfc-alias="indalum" data-rfc-id="IND7809018GA" data-rfc-name="Indalum">
+        <div class="rfc-logo"><img src="assets/indalum-logo-color.svg" alt="Indalum"></div>
         <div class="rfc-name">Indalum</div>
         <div class="rfc-id">IND7809018GA</div>
         <dl class="rfc-meta">
@@ -732,6 +760,7 @@
         </dl>
       </div>
       <div class="rfc-card" data-rfc-alias="kobrex" data-rfc-id="KOB961111PY3" data-rfc-name="Kobrex">
+        <div class="rfc-logo"><img src="assets/kobrex-logo-color.svg" alt="Kobrex"></div>
         <div class="rfc-name">Kobrex</div>
         <div class="rfc-id">KOB961111PY3</div>
         <dl class="rfc-meta">
@@ -823,7 +852,7 @@
     </dl>
 
     <div class="intake-info">
-      <strong>Cómo se procesa:</strong> tu solicitud llegará al equipo de Aliacer con el ticket adjunto. Un operador (o un agente automatizado) entrará al portal de la cadena, llenará tus datos fiscales y te enviará el CFDI por correo. Si el ticket requiere CAPTCHA, te avisaremos para resolverlo.
+      <strong>Cómo se procesa:</strong> tu solicitud llegará al equipo de GILM con el ticket adjunto. Un operador (o un agente automatizado) entrará al portal de la cadena, llenará tus datos fiscales y te enviará el CFDI por correo. Si el ticket requiere CAPTCHA, te avisaremos para resolverlo.
     </div>
 
     <div class="actions">
@@ -853,13 +882,12 @@
 </main>
 
 <footer class="bottom-chrome">
-  <span class="pl-mark">
-    <span class="perfiles">PERFILES</span><span class="lm">LM</span><span class="galvasid">GALVASID</span>
+  <span class="gilm-tag">
+    <span class="b-perfiles">Perfiles LM</span><span class="sep"></span><span class="b-indalum">Indalum</span><span class="sep"></span><span class="b-galvasid">Galvasid</span><span class="sep"></span><span class="b-kobrex">Kobrex</span>
   </span>
-  <span>Aliacer &middot; Portal de facturación &middot; MMXXVI</span>
-  <span class="aliacer-logo">
-    <svg width="18" height="18"><use href="#aliacer-mark"/></svg>
-    <span class="word">ALIACER</span>
+  <span>Grupo Industrial LM &middot; Portal de facturación &middot; MMXXVI</span>
+  <span class="gilm-logo">
+    <img src="assets/gilm-logo.svg" alt="GILM">
   </span>
 </footer>
 
