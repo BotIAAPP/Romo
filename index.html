@@ -792,11 +792,19 @@
     white-space: nowrap;
   }
   table.solicitudes tbody td {
-    padding: 0.75rem;
+    padding: 0.6rem 0.75rem;
     border-bottom: 1px solid var(--rule-soft);
-    vertical-align: top;
+    vertical-align: middle;
+    white-space: nowrap;             /* todas las filas en un solo renglón */
+  }
+  table.solicitudes tbody td.cadena-cell {
+    max-width: 200px;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
   table.solicitudes tbody tr:hover { background: var(--paper-soft); }
+  /* Scroll horizontal en mobile en vez de wrap (la tabla nunca rompe filas) */
+  .tabla-scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; }
   table.solicitudes .ref {
     font-family: var(--mono);
     font-size: 0.82rem;
@@ -871,22 +879,143 @@
   }
   table.solicitudes .dl-btn.pdf { background: #fbe5e7; }
   table.solicitudes .dl-btn.xml { background: #e5edf9; }
-  table.solicitudes .mensaje {
-    font-size: 0.82rem;
+  /* Observaciones: botón que abre un popover (no rompe filas) */
+  table.solicitudes .obs-cell { text-align: center; }
+  table.solicitudes .obs-empty {
+    color: var(--text-faint);
+    font-family: var(--mono);
+    font-size: 0.85rem;
+  }
+  .obs-btn {
+    width: 28px; height: 28px;
+    border: 1px solid var(--rule);
+    background: var(--paper);
+    color: var(--brand-dark);
+    font-size: 1rem;
+    line-height: 1;
+    cursor: pointer;
+    padding: 0;
+    border-radius: 50%;
+    transition: all 0.2s;
+  }
+  .obs-btn:hover, .obs-btn:focus-visible {
+    border-color: var(--brand-accent);
+    color: var(--brand-accent);
+    outline: none;
+    transform: scale(1.05);
+  }
+  /* Dialog modal para Observaciones */
+  .obs-dialog {
+    border: none;
+    padding: 0;
+    background: transparent;
+    max-width: min(90vw, 520px);
+    width: 100%;
+  }
+  .obs-dialog::backdrop { background: rgba(0,0,0,0.45); }
+  .obs-dialog .obs-box {
+    background: var(--paper);
+    border-left: 4px solid var(--brand-accent);
+    padding: 1.5rem 1.5rem 1.25rem;
+    box-shadow: 0 18px 50px rgba(0,0,0,0.2);
+  }
+  .obs-dialog .obs-head {
+    display: flex; justify-content: space-between; align-items: baseline;
+    margin-bottom: 0.85rem;
+  }
+  .obs-dialog .obs-head h3 {
+    font-family: var(--cond);
+    font-style: italic;
+    font-weight: 800;
+    font-size: 1.15rem;
+    color: var(--brand-navy);
+    margin: 0;
+  }
+  .obs-dialog .obs-head .obs-ref {
+    font-family: var(--mono);
+    font-size: 0.75rem;
+    color: var(--brand-accent);
+  }
+  .obs-dialog .obs-body {
+    font-size: 0.92rem;
     color: var(--text-soft);
-    line-height: 1.4;
-    max-width: 320px;
+    line-height: 1.55;
+    white-space: pre-wrap;
+    word-break: break-word;
+    max-height: 60vh;
+    overflow-y: auto;
+  }
+  .obs-dialog .obs-close {
+    margin-top: 1rem;
+    padding: 0.55rem 1.1rem;
+    border: 1px solid var(--rule);
+    background: var(--paper-soft);
+    font-family: var(--mono);
+    font-size: 0.78rem;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    cursor: pointer;
+    color: var(--brand-navy);
+  }
+  .obs-dialog .obs-close:hover {
+    background: var(--brand-accent);
+    color: var(--paper);
+    border-color: var(--brand-accent);
   }
 
+  /* === MOBILE (≤ 720px) — comprimido para reducir scroll === */
   @media (max-width: 720px) {
-    .top-chrome, .bottom-chrome { padding-left: 1.25rem; padding-right: 1.25rem; }
-    .container { padding: 1.5rem 1rem; }
-    .rfc-grid { grid-template-columns: 1fr; }
-    .stepper { grid-template-columns: 1fr 12px 1fr 12px 1fr 12px 1fr; }
+    .top-chrome, .bottom-chrome {
+      padding: 0.5rem 1rem;
+      min-height: auto;
+      font-size: 0.7rem;
+    }
+    .top-chrome .doc-id, .top-chrome .doc-section,
+    .bottom-chrome .stamp { font-size: 0.62rem; }
+    .gilm-logo img { height: 28px; }
+    .gilm-tag, .tagline { display: none; }       /* tag de subsidiarias oculto en mobile */
+    .container { padding: 1rem 0.85rem 2rem; }
+    .portal-title { font-size: clamp(1.4rem, 6vw, 2rem); margin-bottom: 0.4rem; }
+    .portal-sub { font-size: 0.9rem; margin-bottom: 1rem; }
+    .tabs { margin-bottom: 1rem; }
+    .tab { padding: 0.5rem 0.85rem; font-size: 0.8rem; }
+    .rfc-grid { grid-template-columns: 1fr 1fr; gap: 0.5rem; }
+    .stepper { grid-template-columns: 1fr 8px 1fr 8px 1fr 8px 1fr; gap: 0; margin-bottom: 1.25rem; }
+    .step-pill { padding: 0.4rem; }
     .step-pill .lbl { display: none; }
+    .step-pill .num { font-size: 0.85rem; }
+    .step-heading { margin-bottom: 1rem; }
+    .step-heading h2 { font-size: 1.4rem; line-height: 1.15; }
+    .step-heading p { font-size: 0.85rem; margin-top: 0.3rem; }
+    .dropzone { padding: 1.5rem 1rem; }
+    .dropzone .dz-icon { width: 44px; height: 44px; margin-bottom: 0.5rem; }
+    .dropzone .dz-title { font-size: 1.05rem; }
+    .dropzone .dz-sub { font-size: 0.8rem; }
+    .dropzone .dz-formats { font-size: 0.55rem; margin-top: 0.5rem; }
     .review-row { grid-template-columns: 1fr; gap: 0.3rem; }
-    .actions { flex-direction: column-reverse; }
-    .actions .btn { width: 100%; justify-content: center; }
+    .actions { flex-direction: column-reverse; margin-top: 1.25rem; gap: 0.5rem; }
+    .actions .btn { width: 100%; justify-content: center; padding: 0.75rem; }
+    .consulta-search { margin: 0.85rem 0 1rem; }
+    .consulta-search input { padding: 0.65rem 0.85rem; font-size: 0.95rem; }
+    .consulta-stats { gap: 0.4rem; margin: 0.85rem 0; }
+    .consulta-stat { padding: 0.55rem 0.7rem; }
+    .consulta-stat .v { font-size: 1.35rem; }
+    .consulta-stat .l { font-size: 0.55rem; }
+    /* La tabla mantiene UN renglón por fila y scroll horizontal (la envuelve .tabla-scroll). */
+    table.solicitudes { font-size: 0.82rem; }
+    table.solicitudes tbody td { padding: 0.5rem 0.6rem; }
+    table.solicitudes thead th { padding: 0.55rem 0.6rem; font-size: 0.58rem; }
+    .obs-btn { width: 26px; height: 26px; font-size: 0.95rem; }
+    .obs-dialog .obs-box { padding: 1.15rem 1rem 1rem; }
+    .obs-dialog .obs-head h3 { font-size: 1rem; }
+    .obs-dialog .obs-body { font-size: 0.85rem; }
+  }
+  /* Pantallas muy chicas (<= 380px): más compresión */
+  @media (max-width: 380px) {
+    .rfc-grid { grid-template-columns: 1fr; }
+    .step-heading h2 { font-size: 1.2rem; }
+    .portal-title { font-size: 1.35rem; }
+    .consulta-stats { grid-template-columns: 1fr 1fr; }
   }
 </style>
 </head>
@@ -1003,7 +1132,7 @@
     </div>
 
     <label class="dropzone" id="dropzone">
-      <svg class="dz-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+      <svg class="dz-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="56" height="56" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
       <div class="dz-title">Arrastra aquí tu ticket</div>
       <div class="dz-sub">o haz click para elegir el archivo</div>
       <div class="dz-formats">JPG · PNG · PDF · XML &nbsp;·&nbsp; máx. 10 MB</div>
@@ -1441,32 +1570,34 @@
           <td class="ref">${esc(s.ref_id)}</td>
           <td>${fmtFecha(s.timestamp_solicitud)}</td>
           <td><span class="rfc-chip ${esc(s.rfc_alias)}">${esc(s.rfc_alias)}</span></td>
-          <td>${esc(s.cadena || '—')}</td>
+          <td class="cadena-cell" title="${esc(s.cadena || '')}">${esc(s.cadena || '—')}</td>
           <td>${fmtFecha(s.fecha_compra)}</td>
           <td class="total">${fmtMonto(s.total)}</td>
           <td><span class="status-pill ${esc(s.status)}">${esc(s.status)}</span></td>
           <td><div class="downloads">${ticketBtn}${pdfBtn}${xmlBtn}</div></td>
-          <td class="mensaje">${esc(s.mensaje || '')}</td>
+          <td class="obs-cell">${s.mensaje ? `<button type="button" class="obs-btn" data-msg="${esc(s.mensaje)}" data-ref="${esc(s.ref_id)}" title="${esc(s.mensaje)}" aria-label="Ver observaciones">ⓘ</button>` : '<span class="obs-empty">—</span>'}</td>
         </tr>`;
     }).join('');
 
     document.getElementById('consulta-tabla-wrap').innerHTML = `
-      <table class="solicitudes">
-        <thead>
-          <tr>
-            <th>Folio</th>
-            <th>Solicitada</th>
-            <th>RFC</th>
-            <th>Cadena</th>
-            <th>Compra</th>
-            <th style="text-align:right;">Total</th>
-            <th>Status</th>
-            <th>Descargas</th>
-            <th>Observaciones</th>
-          </tr>
-        </thead>
-        <tbody>${rows}</tbody>
-      </table>`;
+      <div class="tabla-scroll">
+        <table class="solicitudes">
+          <thead>
+            <tr>
+              <th>Folio</th>
+              <th>Solicitada</th>
+              <th>RFC</th>
+              <th>Cadena</th>
+              <th>Compra</th>
+              <th style="text-align:right;">Total</th>
+              <th>Status</th>
+              <th>Descargas</th>
+              <th style="text-align:center;">Obs.</th>
+            </tr>
+          </thead>
+          <tbody>${rows}</tbody>
+        </table>
+      </div>`;
   }
 
   async function buscar(email) {
@@ -1505,6 +1636,31 @@
   document.getElementById('consulta-email').addEventListener('keydown', e => {
     if (e.key === 'Enter') document.getElementById('consulta-buscar').click();
   });
+
+  // Observaciones — popover (un solo dialog reciclado para todas las filas)
+  // En desktop el title= ya da tooltip al hover; el click abre la versión completa.
+  // En mobile (sin hover) el click es el único acceso.
+  document.addEventListener('click', e => {
+    const btn = e.target.closest('.obs-btn');
+    if (!btn) return;
+    const dlg = document.getElementById('obs-dialog');
+    dlg.querySelector('.obs-ref').textContent = btn.dataset.ref || '';
+    dlg.querySelector('.obs-body').textContent = btn.dataset.msg || '';
+    if (typeof dlg.showModal === 'function') dlg.showModal();
+    else dlg.setAttribute('open', '');
+  });
 </script>
+
+<!-- Dialog reutilizable para "Observaciones" de Mis solicitudes -->
+<dialog id="obs-dialog" class="obs-dialog">
+  <div class="obs-box">
+    <div class="obs-head">
+      <h3>Observaciones</h3>
+      <span class="obs-ref"></span>
+    </div>
+    <div class="obs-body"></div>
+    <form method="dialog"><button type="submit" class="obs-close">Cerrar</button></form>
+  </div>
+</dialog>
 </body>
 </html>
