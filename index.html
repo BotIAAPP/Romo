@@ -378,8 +378,15 @@
   .rfc-card .rfc-meta dd { display: inline; }
   .rfc-card .rfc-meta div { line-height: 1.5; }
 
-  /* === DROPZONE === */
+  /* === DROPZONE ===
+     OJO: este elemento es un <label> (inline por default). Sin display:flex
+     los <div> hijos rompen el label en múltiples cajas y el borde punteado
+     aparece partido (bug visible en producción 2026-05-26). */
   .dropzone {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
     border: 2px dashed var(--rule);
     background: var(--paper-soft);
     padding: 3rem 2rem;
@@ -388,6 +395,7 @@
     cursor: pointer;
     transition: all 0.25s;
     position: relative;
+    min-height: 220px;
   }
   .dropzone:hover, .dropzone.dragover {
     border-color: var(--brand-red);
