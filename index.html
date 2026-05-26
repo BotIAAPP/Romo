@@ -782,7 +782,13 @@
   .consulta-stat.fuera .v { color: var(--brand-accent); }
 
   table.solicitudes {
-    width: 100%;
+    /* width:auto (no 100%) para que las columnas se ajusten al ancho del
+       contenido y no haya espacio sobrante repartido entre celdas (eso
+       generaba un gap grande visible entre Folio y las fechas). El wrapper
+       .tabla-scroll maneja overflow horizontal si la tabla excede el
+       container. Si la tabla queda más angosta que el container (desktop),
+       fluye a la izquierda — visualmente más limpio que tener gaps. */
+    width: auto;
     border-collapse: collapse;
     font-size: 0.92rem;
     margin-top: 1rem;
@@ -1013,6 +1019,10 @@
     table.solicitudes { font-size: 0.82rem; }
     table.solicitudes tbody td { padding: 0.5rem 0.6rem; }
     table.solicitudes thead th { padding: 0.55rem 0.6rem; font-size: 0.58rem; }
+    /* Ocultar columna "Solicitada" (2ª col) en mobile — el folio FAC-AAAAMMDD-XXXX
+       ya contiene la fecha de solicitud, así que es redundante en pantallas chicas. */
+    table.solicitudes thead th:nth-child(2),
+    table.solicitudes tbody td:nth-child(2) { display: none; }
     .obs-btn { width: 26px; height: 26px; font-size: 0.95rem; }
     .obs-dialog .obs-box { padding: 1.15rem 1rem 1rem; }
     .obs-dialog .obs-head h3 { font-size: 1rem; }
@@ -1533,7 +1543,10 @@
     if (!iso) return '—';
     const d = new Date(iso);
     if (isNaN(d.getTime())) return iso;
-    return d.toLocaleDateString('es-MX', { day: '2-digit', month: 'short', year: 'numeric' });
+    // Formato compacto "26-may-26" para que las columnas de fecha no se inflen
+    // en la tabla. Para el dialog/observaciones podemos pasar el ISO completo.
+    const partes = d.toLocaleDateString('es-MX', { day: '2-digit', month: 'short', year: '2-digit' });
+    return partes.replace(/\s+/g, '-').replace('.', '');  // "26 may 26" -> "26-may-26"
   }
   function fmtMonto(n) {
     if (n == null) return '—';
