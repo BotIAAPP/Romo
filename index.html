@@ -893,6 +893,129 @@
   }
   table.solicitudes .dl-btn.pdf { background: #fbe5e7; }
   table.solicitudes .dl-btn.xml { background: #e5edf9; }
+  /* === CARDS de solicitudes (vista mobile) === */
+  .solicitudes-cards { display: none; margin-top: 1rem; }
+  .solicitudes-cards .sc-card {
+    background: var(--paper);
+    border: 1px solid var(--rule);
+    border-left: 4px solid var(--text-soft);
+    padding: 0.7rem 0.85rem;
+    margin-bottom: 0.55rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+  }
+  .solicitudes-cards .sc-card.status-timbrada              { border-left-color: var(--success); }
+  .solicitudes-cards .sc-card.status-timbrada_pendiente_archivos { border-left-color: var(--success); border-left-style: dashed; }
+  .solicitudes-cards .sc-card.status-en_proceso            { border-left-color: var(--brand-dark); }
+  .solicitudes-cards .sc-card.status-recibida              { border-left-color: var(--text-soft); }
+  .solicitudes-cards .sc-card.status-esperando_humano      { border-left-color: var(--warning); }
+  .solicitudes-cards .sc-card.status-fuera_de_plazo,
+  .solicitudes-cards .sc-card.status-datos_incompletos,
+  .solicitudes-cards .sc-card.status-ticket_ilegible,
+  .solicitudes-cards .sc-card.status-captcha_fallido,
+  .solicitudes-cards .sc-card.status-portal_caido,
+  .solicitudes-cards .sc-card.status-error                 { border-left-color: var(--brand-accent); }
+  .solicitudes-cards .sc-head {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  .solicitudes-cards .sc-ref {
+    font-family: var(--mono);
+    font-size: 0.78rem;
+    color: var(--brand-accent);
+    flex: 1;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .solicitudes-cards .sc-head .rfc-chip {
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: 2px;
+    font-family: var(--cond);
+    font-style: italic;
+    font-weight: 700;
+    font-size: 0.78rem;
+    color: white;
+  }
+  .solicitudes-cards .sc-head .rfc-chip.perfiles_lm { background: var(--c-perfiles); }
+  .solicitudes-cards .sc-head .rfc-chip.galvasid    { background: var(--c-galvasid); }
+  .solicitudes-cards .sc-head .rfc-chip.indalum     { background: var(--c-indalum); }
+  .solicitudes-cards .sc-head .rfc-chip.kobrex      { background: var(--c-kobrex); }
+  .solicitudes-cards .sc-line {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  .solicitudes-cards .sc-cadena {
+    font-family: var(--sans);
+    font-weight: 600;
+    color: var(--brand-navy);
+    font-size: 0.95rem;
+    flex: 1;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .solicitudes-cards .sc-total {
+    font-family: var(--mono);
+    font-weight: 700;
+    color: var(--brand-navy);
+    font-size: 0.95rem;
+    white-space: nowrap;
+  }
+  .solicitudes-cards .sc-date {
+    font-family: var(--mono);
+    font-size: 0.78rem;
+    color: var(--text-soft);
+  }
+  .solicitudes-cards .sc-line .status-pill {
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: 2px;
+    font-family: var(--mono);
+    font-size: 0.65rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    white-space: nowrap;
+  }
+  .solicitudes-cards .sc-line .status-pill.timbrada                     { background: #d1f0db; color: #1d5a36; }
+  .solicitudes-cards .sc-line .status-pill.timbrada_pendiente_archivos  { background: #d1f0db; color: #1d5a36; }
+  .solicitudes-cards .sc-line .status-pill.recibida                     { background: var(--paper-soft); color: var(--text-soft); }
+  .solicitudes-cards .sc-line .status-pill.en_proceso                   { background: #e5edf9; color: var(--brand-dark); }
+  .solicitudes-cards .sc-line .status-pill.esperando_humano             { background: #fff3d6; color: var(--warning); }
+  .solicitudes-cards .sc-line .status-pill.fuera_de_plazo,
+  .solicitudes-cards .sc-line .status-pill.datos_incompletos,
+  .solicitudes-cards .sc-line .status-pill.ticket_ilegible,
+  .solicitudes-cards .sc-line .status-pill.captcha_fallido,
+  .solicitudes-cards .sc-line .status-pill.portal_caido,
+  .solicitudes-cards .sc-line .status-pill.error                        { background: #fde0e3; color: var(--brand-accent); }
+  .solicitudes-cards .sc-foot {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 0.15rem;
+  }
+  .solicitudes-cards .sc-foot .downloads {
+    display: flex; gap: 4px;
+  }
+  .solicitudes-cards .sc-foot .dl-btn {
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 36px; height: 32px;
+    border: 1px solid var(--rule);
+    background: var(--paper);
+    color: var(--brand-dark);
+    text-decoration: none;
+    font-family: var(--mono);
+    font-size: 0.72rem;
+    font-weight: 700;
+  }
+  .solicitudes-cards .sc-foot .dl-btn.pdf { background: #fbe5e7; }
+  .solicitudes-cards .sc-foot .dl-btn.xml { background: #e5edf9; }
+  .solicitudes-cards .sc-foot .dl-btn.disabled { opacity: 0.3; pointer-events: none; }
+
   /* Observaciones: botón que abre un popover (no rompe filas) */
   table.solicitudes .obs-cell { text-align: center; }
   table.solicitudes .obs-empty {
@@ -1015,14 +1138,9 @@
     .consulta-stat { padding: 0.55rem 0.7rem; }
     .consulta-stat .v { font-size: 1.35rem; }
     .consulta-stat .l { font-size: 0.55rem; }
-    /* La tabla mantiene UN renglón por fila y scroll horizontal (la envuelve .tabla-scroll). */
-    table.solicitudes { font-size: 0.82rem; }
-    table.solicitudes tbody td { padding: 0.5rem 0.6rem; }
-    table.solicitudes thead th { padding: 0.55rem 0.6rem; font-size: 0.58rem; }
-    /* Ocultar columna "Solicitada" (2ª col) en mobile — el folio FAC-AAAAMMDD-XXXX
-       ya contiene la fecha de solicitud, así que es redundante en pantallas chicas. */
-    table.solicitudes thead th:nth-child(2),
-    table.solicitudes tbody td:nth-child(2) { display: none; }
+    /* En mobile: tabla OCULTA, cards apiladas visibles. */
+    .tabla-scroll { display: none; }
+    .solicitudes-cards { display: block; }
     .obs-btn { width: 26px; height: 26px; font-size: 0.95rem; }
     .obs-dialog .obs-box { padding: 1.15rem 1rem 1rem; }
     .obs-dialog .obs-head h3 { font-size: 1rem; }
@@ -1576,17 +1694,25 @@
       document.getElementById('consulta-tabla-wrap').innerHTML = '';
       return;
     }
-    const rows = solicitudes.map(s => {
-      const ticketBtn = s.ticket_url
+    // Helpers para reusar entre tabla (desktop) y cards (mobile)
+    const dl = s => {
+      const t = s.ticket_url
         ? `<a class="dl-btn" href="${esc(s.ticket_url)}" target="_blank" rel="noopener" title="Bajar ticket original">TKT</a>`
         : `<span class="dl-btn disabled" title="Sin ticket">TKT</span>`;
-      const pdfBtn = s.pdf_url
+      const p = s.pdf_url
         ? `<a class="dl-btn pdf" href="${esc(s.pdf_url)}" target="_blank" rel="noopener" title="Bajar CFDI PDF">PDF</a>`
         : `<span class="dl-btn pdf disabled" title="Aún no hay PDF (factura no timbrada)">PDF</span>`;
-      const xmlBtn = s.xml_url
+      const x = s.xml_url
         ? `<a class="dl-btn xml" href="${esc(s.xml_url)}" target="_blank" rel="noopener" title="Bajar CFDI XML">XML</a>`
         : `<span class="dl-btn xml disabled" title="Aún no hay XML (factura no timbrada)">XML</span>`;
-      return `
+      return t + p + x;
+    };
+    const obsBtn = s => s.mensaje
+      ? `<button type="button" class="obs-btn" data-msg="${esc(s.mensaje)}" data-ref="${esc(s.ref_id)}" title="${esc(s.mensaje)}" aria-label="Ver observaciones">ⓘ</button>`
+      : '';
+
+    // === TABLA (desktop) ===
+    const rows = solicitudes.map(s => `
         <tr>
           <td class="ref">${esc(s.ref_id)}</td>
           <td>${fmtFecha(s.timestamp_solicitud)}</td>
@@ -1595,10 +1721,28 @@
           <td>${fmtFecha(s.fecha_compra)}</td>
           <td class="total">${fmtMonto(s.total)}</td>
           <td><span class="status-pill ${esc(s.status)}">${esc(s.status)}</span></td>
-          <td><div class="downloads">${ticketBtn}${pdfBtn}${xmlBtn}</div></td>
-          <td class="obs-cell">${s.mensaje ? `<button type="button" class="obs-btn" data-msg="${esc(s.mensaje)}" data-ref="${esc(s.ref_id)}" title="${esc(s.mensaje)}" aria-label="Ver observaciones">ⓘ</button>` : '<span class="obs-empty">—</span>'}</td>
-        </tr>`;
-    }).join('');
+          <td><div class="downloads">${dl(s)}</div></td>
+          <td class="obs-cell">${obsBtn(s) || '<span class="obs-empty">—</span>'}</td>
+        </tr>`).join('');
+
+    // === CARDS (mobile) — densas, 3 líneas por solicitud ===
+    const cards = solicitudes.map(s => `
+        <article class="sc-card status-${esc(s.status)}">
+          <div class="sc-head">
+            <span class="sc-ref">${esc(s.ref_id)}</span>
+            <span class="rfc-chip ${esc(s.rfc_alias)}">${esc(s.rfc_alias)}</span>
+            ${obsBtn(s)}
+          </div>
+          <div class="sc-line">
+            <span class="sc-cadena" title="${esc(s.cadena || '')}">${esc(s.cadena || '—')}</span>
+            <span class="sc-total">${fmtMonto(s.total)}</span>
+          </div>
+          <div class="sc-line">
+            <span class="sc-date">${fmtFecha(s.fecha_compra)}</span>
+            <span class="status-pill ${esc(s.status)}">${esc(s.status)}</span>
+          </div>
+          <div class="sc-foot"><div class="downloads">${dl(s)}</div></div>
+        </article>`).join('');
 
     document.getElementById('consulta-tabla-wrap').innerHTML = `
       <div class="tabla-scroll">
@@ -1618,7 +1762,8 @@
           </thead>
           <tbody>${rows}</tbody>
         </table>
-      </div>`;
+      </div>
+      <div class="solicitudes-cards">${cards}</div>`;
   }
 
   async function buscar(email) {
